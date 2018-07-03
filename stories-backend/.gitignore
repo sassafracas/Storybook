@@ -15,6 +15,7 @@
 
 # Ignore uploaded files in development
 /storage/*
+/public/*
 
 .byebug_history
 .env
