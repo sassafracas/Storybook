@@ -1,16 +1,17 @@
 import React, { Fragment, Component } from "react";
-import { NavLink, Link, Switch } from 'react-router-dom';
+import { NavLink, Link, Switch, withRouter } from 'react-router-dom';
 import Adapter from "./Adapter"
 import { Menu, Segment } from 'semantic-ui-react';
 
-export default class NavBar extends Component {
+class NavBar extends Component {
 
   state = {
-    activeItem: "My Stories"
+    activeItem: "my-stories"
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-render(){
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name }, ()=> this.props.history.push(`/${name}`))
+
+  render(){
 
   const { activeItem } = this.state
 
@@ -19,18 +20,18 @@ render(){
          { Adapter.isLoggedIn() ?
       <Menu pointing secondary>
            <Menu.Menu>
-             <Menu.Item name="My Stories" active={activeItem === 'My Stories'} onClick={this.handleItemClick}>
-               <Link exact to="/my-stories">My Stories</Link>
+             <Menu.Item name="my-stories" active={activeItem === 'my-stories'} onClick={this.handleItemClick}>
+               My Stories
              </Menu.Item>
-             <Menu.Item name="Explore" active={activeItem === 'Explore'} onClick={this.handleItemClick}>
-               <Link exact to="/explore">Explore</Link>
+             <Menu.Item name="explore" active={activeItem === 'explore'} onClick={this.handleItemClick}>
+               Explore
              </Menu.Item>
-             <Menu.Item name="Upload" active={activeItem === 'Upload'} onClick={this.handleItemClick}>
-               <Link exact to="/upload">Upload</Link>
+             <Menu.Item name="upload" active={activeItem === 'upload'} onClick={this.handleItemClick}>
+               Upload
              </Menu.Item>
              </Menu.Menu>
              <Menu.Menu position="right">
-               <Menu.Item name="Logout" active={activeItem === 'Logout'} onClick={() => {
+               <Menu.Item name="logout" active={activeItem === 'logout'} onClick={() => {
                    this.handleItemClick;
                    Adapter.logout();
                    this.props.routeInfo.history.push("/login");
@@ -41,11 +42,11 @@ render(){
 
            :
              <Menu>
-               <Menu.Item name="Register" active={activeItem === 'Register'} onClick={this.handleItemClick}>
-                 <Link exact to="/register">Registration</Link>
+               <Menu.Item name="register" active={activeItem === 'register'} onClick={this.handleItemClick}>
+                 <Link to="/register">Registration</Link>
                </Menu.Item>
-               <Menu.Item name="Login" active={activeItem === 'Login'} onClick={this.handleItemClick}>
-                 <Link exact to="/login">Login</Link>
+               <Menu.Item name="login" active={activeItem === 'login'} onClick={this.handleItemClick}>
+                 <Link to="/login">Login</Link>
                </Menu.Item>
              </Menu>
          }
@@ -53,3 +54,5 @@ render(){
    )
  }
 }
+
+export default withRouter(NavBar);
