@@ -7,7 +7,15 @@ class Adapter {
   static logout() {
     localStorage.removeItem('token');
   }
-  
+
+  static postToPhotos(formPayload) {
+    fetch("http://localhost:3000/photos", {
+      headers: {Authorization: localStorage.getItem('token')},
+      method: "POST",
+      body: formPayload
+    })
+  }
+
 }
 
 export default Adapter;
