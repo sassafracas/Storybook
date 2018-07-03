@@ -64,8 +64,17 @@ class App extends Component {
   }
 
   deletePhotostory = (photostory) => {
-    Adapter.deleteOnePhotostory(photostory.id).then(r => r.json()).then(r=> r.map(photostory=> this.getPhotos(photostory)))
+    Adapter.deleteOnePhotostory(photostory.id).then(()=> this.deletePhotostoryFromState(photostory))
     console.log(photostory);
+  }
+
+  deletePhotostoryFromState = (photostory) => {
+    let deletedPhotostoryIndex = this.state.photostories.findIndex((statePhotostory, index) => statePhotostory.id === photostory.id)
+    console.log("deleted index ", deletedPhotostoryIndex);
+    this.setState({
+      photostories: [...this.state.photostories.slice(0, deletedPhotostoryIndex), ...this.state.photostories.slice(deletedPhotostoryIndex+1)]
+    }, () => console.log("after deleting state ", this.state))
+
   }
 
   handleInputChange = (event) => {
