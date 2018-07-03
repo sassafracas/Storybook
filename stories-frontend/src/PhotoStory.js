@@ -21,13 +21,16 @@ class PhotoStory extends Component {
   }
 
   render() {
-   console.log("photostory props ", this.props)
+   console.log("photostory props ", window.innerHeight)
 
 
         if (!this.state.show) {
-          return (<Visibility onTopVisible={this.showPhotostory}>
+          return (<div style={{height: window.innerHeight}}>
+                  <Visibility continuous onTopVisible={this.showPhotostory}>
                     <Loader active inline="centered" />
-                  </Visibility>)
+                  </Visibility>
+                </div>
+                )
           }
           return (<Segment vertical>
             <Link to={{
