@@ -135,7 +135,7 @@ class App extends Component {
             </Fragment>
             :
             <Fragment>
-
+               <Redirect to="/"/>
               <Route exact path="/register" component={(props) => <RegistrationForm {...props} />} />
               <Route exact path="/login" component={(props) => <LoginForm {...this.state} {...props} handleLogInSubmit={this.handleLogInSubmit} handleInputChange={this.handleInputChange}/>} />
             </Fragment>

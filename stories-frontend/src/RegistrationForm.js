@@ -36,7 +36,7 @@ class RegistrationForm extends Component {
 
   render() {
     return (
-      <Container text>
+      <Container text style={{"margin-top": "300px"}}>
         {this.state.regErrors ? <Message error header={this.state.regErrors}/> : "" }
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>

@@ -19,7 +19,7 @@ class LoginForm extends Component {
   render(){
     console.log("log in form props ", this.props)
     return (
-      <Container text>
+      <Container text style={{"margin-top": "300px"}}>
         {this.props.errors ? <Message error header={this.props.errors}/> : "" }
       <Form onSubmit={(event)=>this.props.handleLogInSubmit(event, this.state.username, this.state.password)}>
         <Form.Field>
