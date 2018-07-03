@@ -1,10 +1,42 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Adapter from "./Adapter";
-import { Segment, Card, Image, Modal, Button, Icon } from 'semantic-ui-react';
+import { Segment, Card, Image, Modal, Button, Icon, Input } from 'semantic-ui-react';
 
 
 //map photos here
 class Photo extends Component {
+
+  state = {
+    editable: false,
+    caption: "",
+    selectedPhoto: ""
+  }
+
+  changeCaptionState = (event, buttonInfo) => {
+    console.log("caption event ", event);
+    console.log("caption buttonInfo ", buttonInfo);
+    this.setState({caption: buttonInfo.value})
+  }
+
+  makeCaptionAnInput = (photo) => {
+    return <Fragment><Input defaultValue={photo.caption} onChange={(event, buttonInfo) => this.changeCaptionState(event, buttonInfo)}></Input><Button onClick={this.patchCaption} type="submit">Done</Button></Fragment>
+  }
+//have it send an update to the photo prop it's getting
+  patchCaption = () => {
+    console.log(this.state.selectedPhoto);
+    Adapter.updatePhotoCaption(this.state.selectedPhoto, this.state.caption).then(r=> r.json()).then(json => console.log("patch is goo ", json)).then(this.setState({editable: false}))
+
+  }
+
+  makeEditable = (event, buttonInfo, photo) => {
+    event.persist();
+    console.log("makeEditable event ", event);
+    console.log("makeEditable photo ", photo);
+    this.setState({
+      editable: !this.state.editable,
+      selectedPhoto: photo.id
+    })
+  }
 
   mapLargePhotos = () => {
     return <Card.Group itemsPerRow={2}>
@@ -16,14 +48,14 @@ class Photo extends Component {
                 </Modal.Content>
                 </Modal>
                 <Card.Content>
-                  <Card.Header key={photo.id}>  <Button basic icon floated="left" size="mini"> <Icon name='edit'/></Button>{photo.caption}</Card.Header>
+                  <Card.Header key={photo.id}>  <Button basic icon floated="left" size="mini" onClick={(event, buttonInfo) => this.makeEditable(event, buttonInfo, photo)}> <Icon name='edit'/></Button>{this.state.selectedPhoto === photo.id && this.state.editable ? this.makeCaptionAnInput(photo) : photo.caption}</Card.Header>
                 </Card.Content>
               </Card>
             )
           })}
         </Card.Group>
   }
-
+//make a ternary for photo caption, if state is set to edit then render a textarea with the photo caption prewritten in and  submit that patches to server otherwise just render the photo caption
   mapSmallPhotos = () => {
     return <Card.Group itemsPerRow={6}>
             {this.props.photos.map(photo => {return (

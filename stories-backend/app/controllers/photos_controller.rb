@@ -39,4 +39,12 @@ class PhotosController < ApplicationController
     end
   end
 
+  def update
+    @photo = Photo.find_by(id: params[:id])
+    @photo.update(caption: params[:caption])
+    @photo.save
+
+    render json: @photo
+  end
+
 end

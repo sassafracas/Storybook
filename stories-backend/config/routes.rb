@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get "/photostories/public", to: "photostories#public"
-  
+
   resources :users, only: [:index, :show, :create, :token]
-  resources :photos, only: [:index, :show, :create]
+  resources :photos, only: [:index, :show, :create, :update, :patch]
   resources :photostories, only: [:show, :create, :destroy, :public]
   resources :sessions, only: [:create]
 

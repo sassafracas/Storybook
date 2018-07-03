@@ -49,6 +49,14 @@ class Adapter {
     })
   }
 
+  static updatePhotoCaption(id, caption) {
+    console.log(caption);
+    return fetch(`http://localhost:3000/photos/${id}`, {
+      headers: {Authorization: localStorage.getItem('token'), "Content-Type": "application/json"},
+      method: "PATCH",
+      body: JSON.stringify({ caption })
+    })
+  }
 //Get all photostories not from current_user & not set to private
 
 }
