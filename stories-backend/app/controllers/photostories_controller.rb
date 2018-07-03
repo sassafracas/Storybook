@@ -2,7 +2,7 @@ class PhotostoriesController < ApplicationController
 
   def public
     # byebug
-    render json: PhotoStory.where(private: false)
+    render json: PhotoStory.where.not(user_id: decoded_token[0]["id"], private: true)
   end
 
   def show
