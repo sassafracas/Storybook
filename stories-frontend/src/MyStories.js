@@ -24,7 +24,7 @@ class MyStories extends Component {
     photostory["photos"] = json
     this.setState({
       photostories: [...this.state.photostories, photostory]
-    }, () => console.log(this.state))
+    }, () => console.log("mystories ",this.props))
 
   }
 

@@ -4,11 +4,11 @@ class PhotoDetails extends Component {
 
 
   render(){
-    console.log(this.props)
+    console.log("inside photodetails ",this.props)
     return(
       <div>
       <h1>{this.props.location.state.photostory.title}</h1>
-      <Photo photos={this.props.location.state.photostory.photos} />
+      <Photo routeInfo={this.props.location.pathname} photos={this.props.location.state.photostory.photos} />
       </div>
     )
   }
