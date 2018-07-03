@@ -19,7 +19,7 @@ class Upload extends Component {
 //post state to database
   handlePhotoUpload = (event) => {
     event.preventDefault();
-    event.persist();
+
 
     console.log("upload event ", event);
     console.log("Before submit state ", this.state)
@@ -35,7 +35,7 @@ class Upload extends Component {
   }
 
   putPhotoOnScreen = (photoObj) => {
-    console.log(photoObj.picture.url);
+    console.log(photoObj);
     this.setState({
       caption: "",
       picture: [...this.state.picture, photoObj]
@@ -44,7 +44,7 @@ class Upload extends Component {
 
 //change state to include picture
   handlePhotoClick = (event) => {
-    event.persist()
+
     console.log("handlePhotoClick before set state", event)
     this.setState({
       picture: event.target[3].files["0"]
@@ -56,7 +56,7 @@ class Upload extends Component {
   }
 
   mapPhotoPreviews = () => {
-    return this.state.picture.map(picture => <Image src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>)
+    return this.state.picture.map(picture => <Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>)
   }
 
   render(){

@@ -21,15 +21,13 @@ class App extends Component {
   }
 
   componentDidMount(){
-    console.log("is this first");
     localStorage.getItem('token') ? Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories()) : this.props.history.push("/")
   }
 
   getAllUserStories = () => {
-    console.log(this.state);
     Adapter.getAllMyStories(localStorage.getItem('token'), this.state.currentUserId)
     .then(r => r.json())
-    .then(json => {console.log(json);return json.map(photostory => this.getPhotos(photostory))})
+    .then(json => {return json.map(photostory => this.getPhotos(photostory))})
   }
 
   getPhotos = (photostory) => {
@@ -40,15 +38,14 @@ class App extends Component {
     photostory["photos"] = json
     this.setState({
       photostories: [...this.state.photostories, photostory]
-    }, () => console.log("mystories ",this.props))
-
+    })
   }
 
   addTokenInfoToState = (r) => {
     this.setState({
       currentUserId: r.id,
       username: r.username
-    }, ()=> console.log(this.state))
+    })
   }
 
 
@@ -85,7 +82,7 @@ class App extends Component {
           { Adapter.isLoggedIn() ?
             <Fragment>
               <Route exact path="/explore" component={Explore} />
-              <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} {...props} />} />
+              <Route exact path="/my-stories" component={(props) => <MyStories getPhotos={this.getPhotos} {...this.state} {...props} />} />
               <Route exact path="/upload" component={Upload} />
               <Route exact path="/my-stories/:id" component={PhotoDetails} />
             </Fragment>

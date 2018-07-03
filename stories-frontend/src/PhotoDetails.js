@@ -6,7 +6,6 @@ class PhotoDetails extends Component {
 
 
   render(){
-    console.log("inside photodetails ",this.props)
     return(
       <div>
       <h1>{this.props.location.state.photostory.title}</h1>

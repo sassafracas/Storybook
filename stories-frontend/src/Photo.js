@@ -27,7 +27,7 @@ class Photo extends Component {
   mapSmallPhotos = () => {
     return <Card.Group itemsPerRow={6}>
             {this.props.photos.map(photo => {return (
-              <Card>
+              <Card key={photo.id}>
                 <Image src={`http://localhost:3000${photo.picture.url}`}/>
                 <Card.Content>
                 <Card.Description key={photo.id}>{photo.caption}</Card.Description>

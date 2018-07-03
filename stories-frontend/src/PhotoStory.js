@@ -7,7 +7,7 @@ import { Segment } from 'semantic-ui-react';
 class PhotoStory extends Component {
 
   deletePhotostory = () => {
-    Adapter.deleteOnePhotostory(this.props.photostory.id).then(r => console.log(r))
+    Adapter.deleteOnePhotostory(this.props.photostory.id)
   }
 
   render() {

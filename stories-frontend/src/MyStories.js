@@ -7,7 +7,7 @@ import PhotoStory from "./PhotoStory"
 class MyStories extends Component {
 
   mapPhotoStories = () => {
-    return this.props.photostories.map(photostory =>  {return <PhotoStory key={photostory.id} photostory={photostory}/>})
+    return this.props.photostories.map(photostory =>  {return <PhotoStory key={photostory.id} getPhotos={this.props.getPhotos} photostory={photostory}/>})
   }
 
   render(){
