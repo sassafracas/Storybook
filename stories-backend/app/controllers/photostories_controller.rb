@@ -36,6 +36,8 @@ class PhotostoriesController < ApplicationController
     @photostory = PhotoStory.find_by(id: params[:id])
 
     @photostory.destroy
+
+    render json: PhotoStory.all
   end
 
 end

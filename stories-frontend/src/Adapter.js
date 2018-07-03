@@ -35,6 +35,13 @@ class Adapter {
     })
   }
 
+  static deleteOnePhotostory(id) {
+    return fetch(`http://localhost:3000/photostories/${id}`, {
+      headers: {Authorization: localStorage.getItem('token')},
+      method: "DELETE"
+    })
+  }
+
 }
 
 export default Adapter;

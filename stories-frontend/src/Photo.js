@@ -8,7 +8,7 @@ class Photo extends Component {
   mapLargePhotos = () => {
     return this.props.photos.map(photo => {return (
       <React.Fragment>
-      <li key={photo.id}>{photo.caption}</li>
+      <h3 key={photo.id}>{photo.caption}</h3>
         <img src={`http://localhost:3000${photo.picture.url}`} height="400" width="700"/>
       </React.Fragment>
         )
@@ -18,7 +18,7 @@ class Photo extends Component {
   mapSmallPhotos = () => {
     return this.props.photos.map(photo => {return (
       <React.Fragment>
-      <li key={photo.id}>{photo.caption}</li>
+      <h5 key={photo.id}>{photo.caption}</h5>
         <img src={`http://localhost:3000${photo.picture.url}`} height="200" width="300"/>
       </React.Fragment>
         )
@@ -28,9 +28,9 @@ class Photo extends Component {
   render() {
     console.log("photo props ", this.props)
     return (
-      <ul>
+      <div>
         {this.props.routeInfo === `/my-stories/${this.props.photos[0].photo_story_id}` ? this.mapLargePhotos() : this.mapSmallPhotos()}
-      </ul>
+      </div>
     )
   }
 }
