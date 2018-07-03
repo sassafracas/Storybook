@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Adapter from "./Adapter";
-import { Segment, Card, Image, Modal } from 'semantic-ui-react';
+import { Segment, Card, Image, Modal, Button, Icon } from 'semantic-ui-react';
 
 
 //map photos here
@@ -16,7 +16,7 @@ class Photo extends Component {
                 </Modal.Content>
                 </Modal>
                 <Card.Content>
-                  <Card.Header key={photo.id}>{photo.caption}</Card.Header>
+                  <Card.Header key={photo.id}>  <Button basic icon floated="left" size="mini"> <Icon name='edit'/></Button>{photo.caption}</Card.Header>
                 </Card.Content>
               </Card>
             )
