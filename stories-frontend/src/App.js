@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   editUploadedPhotoInState = (editedPhoto, photostory) => {
-    
+
     console.log("uploaded photostory", photostory);
 
     this.setState({

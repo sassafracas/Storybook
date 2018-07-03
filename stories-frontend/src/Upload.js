@@ -83,6 +83,15 @@ class Upload extends Component {
 
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("the props now", this.props);
+    console.log("update props ", nextProps);
+    console.log("update state", nextState);
+    let shouldUpdate = this.props.editUploadedPhotoInState === nextProps.editUploadedPhotoInState
+    return shouldUpdate
+
+  }
+
   photoChange = (event, data) => {
     const name = "inputPicture"
     const value = data.value
@@ -92,13 +101,14 @@ class Upload extends Component {
   }
 
   putPhotoOnScreen = (photoObj, photostoryObj) => {
-    console.log("after posting to preview and after uploading to backend", photoObj);
+    console.log("after posting to preview and after uploading to backend", this.state);
+    console.log(photoObj);
     this.setState({
       caption: "",
       captionValid: false,
       formValid: false,
       picture: [...this.state.picture, photoObj]
-    }, ()=> this.props.editUploadedPhotoInState(photoObj, photostoryObj))
+    }, ()=> {console.log("after setting state", this.state); return this.props.editUploadedPhotoInState(photoObj, photostoryObj)})
   }
 
 //change state to include picture
@@ -129,6 +139,7 @@ class Upload extends Component {
   }
 
   render(){
+      console.log("upload render")
     return(
       <Fragment>
       <Form onSubmit={this.handlePhotoUpload}>
