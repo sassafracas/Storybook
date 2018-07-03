@@ -4,4 +4,7 @@ Rails.application.routes.draw do
   resources :photos, only: [:index, :show, :create]
   resources :photostories, only: [:index, :show, :create]
   resources :sessions, only: [:create]
+
+  get "/users/:id/photostories", to: "users#user_photo_stories"
+  get "/photostories/:id/photos", to: "photostories#photostory_photos"
 end

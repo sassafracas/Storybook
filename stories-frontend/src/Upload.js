@@ -15,13 +15,15 @@ class Upload extends Component {
     }, console.log(this.state))
   }
 //post state to database
+// Possible ways to handle multiple pictures: photostory.find_or_create_by title
   handlePhotoUpload = (event) => {
     event.preventDefault();
+    event.persist();
 
     console.log("upload event ", event);
     console.log("Before submit state ", this.state)
 
-    //["[[Target]]"].target[1].files
+    //["[[Target]]"].target[2].files
     let formData = new FormData();
     formData.append("caption", this.state.caption)
     formData.append("title", this.state.title)
@@ -61,7 +63,7 @@ class Upload extends Component {
         <label>Photo<input type="file" name="picture" accept="image/*"></input></label>
         <input type="submit" value="Upload Your Photo"></input>
       </form>
-      {this.state.picture[0] ? <img alt="" src={`http://localhost:3000${this.state.picture[0].picture.url}`} /> : <h1>yo</h1>}
+      {this.state.picture[0] ? <img alt="" src={`http://localhost:3000${this.state.picture[0].picture.url}`} /> : <h1>Preview of Photos</h1>}
       </Fragment>
     )
   }

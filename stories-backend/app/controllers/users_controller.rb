@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   end
 
   def user_photo_stories
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find_by(id: params[:id])
 
     render json: @user.photo_stories
   end

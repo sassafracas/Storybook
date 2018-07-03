@@ -14,7 +14,7 @@ class PhotostoriesController < ApplicationController
 
     @photostory.title = params[:title]
 
-    
+
     if (@photostory.save)
       render json: {
         title: @photostory.title,
@@ -24,6 +24,12 @@ class PhotostoriesController < ApplicationController
         errors: @photostory.errors.full_messages
       }, status: :unprocessable_entity
     end
+  end
+
+  def photostory_photos
+    @photostory = PhotoStory.find_by(id: params[:id])
+
+    render json: @photostory.photos
   end
 
 end
