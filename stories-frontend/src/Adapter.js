@@ -9,7 +9,7 @@ class Adapter {
   }
 
   static postToPhotos(formPayload) {
-    fetch("http://localhost:3000/photos", {
+    return fetch("http://localhost:3000/photos", {
       headers: {Authorization: localStorage.getItem('token')},
       method: "POST",
       body: formPayload

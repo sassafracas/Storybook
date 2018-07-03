@@ -4,6 +4,7 @@ import Adapter from "./Adapter"
 class Upload extends Component {
 
   state = {
+    title: "",
     caption: "",
     picture: []
   }
@@ -23,9 +24,10 @@ class Upload extends Component {
     //["[[Target]]"].target[1].files
     let formData = new FormData();
     formData.append("caption", this.state.caption)
-    formData.append("picture", event.target[1].files[0])
+    formData.append("title", this.state.title)
+    formData.append("picture", event.target[2].files[0])
     Adapter.postToPhotos(formData).then(r => r.json()).then(r => console.log(r))
-    console.log("handlePhotoUpload ", event.target[1].files[0])
+    
   }
 
 //change state to include picture
@@ -44,6 +46,8 @@ class Upload extends Component {
     return(
       <form onSubmit={this.handlePhotoUpload}>
         <h2>Upload A Photo</h2>
+        <label>Story Title<input type="text" value={this.state.title} name="title" onChange={this.handlePhotoInputChange}></input></label>
+        <br></br>
         <label>Caption<textarea value={this.state.caption} name="caption" onChange={this.handlePhotoInputChange}></textarea></label>
         <br></br>
         <label>Photo<input type="file" name="picture" accept="image/*"></input></label>

@@ -12,6 +12,7 @@ class PhotosController < ApplicationController
   def create
     @user = User.find_by(id: decoded_token[0]["id"])
     @photostory = PhotoStory.new
+    @photostory.title = params[:title]
     @user.photo_stories.push(@photostory)
     @photostory.save
     @photo = Photo.new
@@ -21,9 +22,11 @@ class PhotosController < ApplicationController
 
 
 
-    # byebug
+
     if (@photo.save)
+
       render json: {
+        id: @photo.id,
         caption: @photo.caption,
         picture: @photo.picture,
       }

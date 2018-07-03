@@ -1,4 +1,4 @@
-class PhotoStoriesController < ApplicationController
+class PhotostoriesController < ApplicationController
 
   def index
     render json: PhotoStory.all
@@ -14,7 +14,7 @@ class PhotoStoriesController < ApplicationController
 
     @photostory.title = params[:title]
 
-    byebug
+    
     if (@photostory.save)
       render json: {
         title: @photostory.title,
