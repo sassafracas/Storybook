@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Adapter from "./Adapter";
-import { Segment, Card, Image } from 'semantic-ui-react';
+import { Segment, Card, Image, Modal } from 'semantic-ui-react';
 
 
 //map photos here
@@ -10,7 +10,11 @@ class Photo extends Component {
     return <Card.Group itemsPerRow={2}>
             {this.props.photos.map(photo => {return (
               <Card fluid>
-                <Image src={`http://localhost:3000${photo.picture.url}`} fluid/>
+                <Modal closeOnDocumentClick={true} dimmer={"blurring"} size={"fullscreen"} trigger={<Image src={`http://localhost:3000${photo.picture.url}`} fluid/>}>
+                <Modal.Content image>
+                  <Image src={`http://localhost:3000${photo.picture.url}`} wrapped fluid/>
+                </Modal.Content>
+                </Modal>
                 <Card.Content>
                   <Card.Header key={photo.id}>{photo.caption}</Card.Header>
                 </Card.Content>
