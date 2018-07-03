@@ -21,29 +21,27 @@ class PhotoStory extends Component {
   }
 
   render() {
-   console.log("photostory props ", window.innerHeight)
+   console.log("photostory props ", this.props)
+    return (
+      <Segment basic>
+        {this.state.show ?
+      <Segment vertical>
+        <Link to={{
+            pathname: `/my-stories/${this.props.photostory.id}`,
+            state: {...this.props}
+          }}><h3>{this.props.photostory.title}</h3></Link>
+          <button onClick={this.deletePhotostory}>Delete Story</button>
+          <Photo photos={this.props.photostory.photos}/>
+      </Segment>
+      :
 
+      <Visibility as="span" onTopVisible={this.showPhotostory}>
+        <Loader active inline="centered" />
+      </Visibility>}
+</Segment>
+  )
 
-        if (!this.state.show) {
-          return (<div style={{height: window.innerHeight}}>
-                  <Visibility continuous onTopVisible={this.showPhotostory}>
-                    <Loader active inline="centered" />
-                  </Visibility>
-                </div>
-                )
-          }
-          return (<Segment vertical>
-            <Link to={{
-                pathname: `/my-stories/${this.props.photostory.id}`,
-                state: {...this.props}
-              }}><h3>{this.props.photostory.title}</h3></Link>
-              <button onClick={this.deletePhotostory}>Delete Story</button>
-              <Photo photos={this.props.photostory.photos}/>
-            </Segment>)
-
-}
-
-
+  }
 }
 
 
