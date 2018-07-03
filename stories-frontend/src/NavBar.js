@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch } from 'react-router-dom';
 import Adapter from "./Adapter"
 
 const NavBar = (props) => {
+  console.log(props)
   return (
     <header>
          { Adapter.isLoggedIn() ?
@@ -25,9 +26,9 @@ const NavBar = (props) => {
                }}exact to="/upload">Upload</NavLink>
              <button onClick={() => {
                  Adapter.logout();
-                 props.history.push("/login");
+                 props.routeInfo.history.push("/login");
                }}>Logout</button>
-            </Fragment>
+           </Fragment>
            :
              <Fragment>
                <NavLink

@@ -15,21 +15,21 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar />
+        <NavBar routeInfo={this.props}/>
         <Route exact path="/" component={Welcome} />
           { Adapter.isLoggedIn() ?
-            <Switch>
+            <Fragment>
               <Route exact path="/explore" component={Explore} />
               <Route exact path="/my-stories" component={MyStories} />
               <Route exact path="/upload" component={Upload} />
               <Route exact path="/my-stories/:id" component={PhotoDetails} />
-            </Switch>
+            </Fragment>
             :
-            <Switch>
+            <Fragment>
               <Redirect to="/" />
               <Route exact path="/register" component={(props) => <RegistrationForm {...props} />} />
               <Route exact path="/login" component={(props) => <LoginForm {...props} />} />
-            </Switch>
+            </Fragment>
           }
 
       </div>

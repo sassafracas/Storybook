@@ -63,7 +63,7 @@ class Upload extends Component {
         <label>Photo<input type="file" name="picture" multiple={true} accept="image/*"></input></label>
         <input type="submit" value="Upload Your Photo"></input>
       </form>
-      {this.state.picture[0] ? <img alt="" src={`http://localhost:3000${this.state.picture[0].picture.url}`} /> : <h1>Preview of Photos</h1>}
+      {this.state.picture[0] ? <img alt="" src={`http://localhost:3000${this.state.picture[0].picture.url}`} height="200" width="300"/> : <h1>Preview of Photos</h1>}
       </Fragment>
     )
   }

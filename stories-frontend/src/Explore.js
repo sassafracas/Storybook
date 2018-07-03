@@ -27,7 +27,7 @@ addPhotosToState = (json, photostory) => {
 }
 
 mapAllPhotoStories = () => {
-  return this.state.allPhotoStories.map(photostory =>  {return <PhotoStory key={photostory.id} routeInfo={this.props} photostory={photostory}/>})
+  return this.state.allPhotoStories.map(photostory =>  {return <PhotoStory key={photostory.id} photostory={photostory}/>})
 }
 
 render(){

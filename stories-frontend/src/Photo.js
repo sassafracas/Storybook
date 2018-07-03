@@ -9,7 +9,7 @@ class Photo extends Component {
     return this.props.photos.map(photo => {return (
       <React.Fragment>
       <li key={photo.id}>{photo.caption}</li>
-        <img src={`http://localhost:3000${photo.picture.url}`} height="800" width="600"/>
+        <img src={`http://localhost:3000${photo.picture.url}`} height="400" width="700"/>
       </React.Fragment>
         )
       })
