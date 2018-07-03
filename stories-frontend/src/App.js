@@ -39,6 +39,19 @@ class App extends Component {
     console.log("hi you're editing ", this.state.photostories);
   }
 
+  editUploadedPhotoInState = (editedPhoto, photostory) => {
+    
+    console.log("uploaded photostory", photostory);
+
+    this.setState({
+      photostories: [...this.state.photostories, photostory]
+    }, () => {
+      console.log("after setting state ", this.state.photostories)
+    })
+    console.log("photo index ", editedPhoto);
+    console.log("hi you're editing ", this.state.photostories);
+  }
+
   getAllUserStories = () => {
     console.log("get all user stories ", this.state);
     Adapter.getAllMyStories(localStorage.getItem('token'), this.state.currentUserId)
@@ -116,7 +129,7 @@ class App extends Component {
             <Fragment>
               <Route exact path="/explore" component={Explore} />
               <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} history={props.history} deletePhotostory={this.deletePhotostory} editCaptionInState={this.editCaptionInState}  />} />
-              <Route exact path="/upload" component={Upload} />
+              <Route exact path="/upload" component={(props) => <Upload history={props.history} editUploadedPhotoInState={this.editUploadedPhotoInState}  />} />
               <Route exact path="/my-stories/:id" component={(props) => <PhotoDetails {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
             </Fragment>
             :

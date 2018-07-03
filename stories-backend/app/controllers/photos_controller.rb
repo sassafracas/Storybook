@@ -28,9 +28,8 @@ class PhotosController < ApplicationController
     @photostory.save
     if (@photo.save)
       render json: {
-        id: @photo.id,
-        caption: @photo.caption,
-        picture: @photo.picture,
+        photostory: {id: @photostory.id, title: @photostory.title, description: @photostory.description, private: @photostory.private, user_id: @photostory.user_id, photos: @photostory.photos},
+        photo: {id: @photo.id, caption: @photo.caption, picture: @photo.picture}
       }
     else
       render json: {

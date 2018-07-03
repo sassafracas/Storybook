@@ -79,7 +79,7 @@ class Upload extends Component {
     formData.append("picture", event.target[5].files[0])
     Adapter.postToPhotos(formData)
       .then(r => r.json())
-      .then(r => this.putPhotoOnScreen(r))
+      .then(r => this.putPhotoOnScreen(r.photo, r.photostory))
 
   }
 
@@ -91,14 +91,14 @@ class Upload extends Component {
     }, () => { this.validateField(name, value) })
   }
 
-  putPhotoOnScreen = (photoObj) => {
+  putPhotoOnScreen = (photoObj, photostoryObj) => {
     console.log("after posting to preview and after uploading to backend", photoObj);
     this.setState({
       caption: "",
       captionValid: false,
       formValid: false,
       picture: [...this.state.picture, photoObj]
-    }, ()=> console.log("after setting picture state ", this.state))
+    }, ()=> this.props.editUploadedPhotoInState(photoObj, photostoryObj))
   }
 
 //change state to include picture
@@ -115,7 +115,7 @@ class Upload extends Component {
   }
 
   mapPhotoPreviews = () => {
-    return this.state.picture.map(picture => <Fragment><Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/><Button color="red" size="mini" compact icon basic attached="right" floated="left" onClick={(event, buttonInfo) => this.deletePhotoFromStateAndBackend(event, buttonInfo, picture)}><Icon name="x"/></Button></Fragment>)
+    return this.state.picture.map(picture => <Fragment key={picture.id}><Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/><Button color="red" size="mini" compact icon basic attached="right" floated="left" onClick={(event, buttonInfo) => this.deletePhotoFromStateAndBackend(event, buttonInfo, picture)}><Icon name="x"/></Button></Fragment>)
   }
 
   deletePhotoFromStateAndBackend = (event, buttonInfo, picture) => {
