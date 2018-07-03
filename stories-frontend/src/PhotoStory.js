@@ -13,11 +13,11 @@ class PhotoStory extends Component {
   render() {
    console.log("photostory props ", this.props)
     return (
-      <Segment>
+      <Segment vertical>
         <Link to={{
             pathname: `/my-stories/${this.props.photostory.id}`,
             state: {...this.props}
-            }}><h4>{this.props.photostory.title}</h4></Link>
+          }}><h3>{this.props.photostory.title}</h3></Link>
           <button onClick={this.deletePhotostory}>Delete Story</button>
           <Photo photos={this.props.photostory.photos}/>
       </Segment>

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
-import Adapter from "./Adapter"
+import Adapter from "./Adapter";
+import { Form, Input, TextArea, Button, Image } from 'semantic-ui-react';
 
 class Upload extends Component {
 
@@ -34,6 +35,7 @@ class Upload extends Component {
   putPhotoOnScreen = (photoObj) => {
     console.log(photoObj.picture.url);
     this.setState({
+      caption: "",
       picture: [...this.state.picture, photoObj]
     }, ()=> console.log("after setting picture state ", this.state))
   }
@@ -51,19 +53,32 @@ class Upload extends Component {
     console.log("handlePhotoClick ", event.target.files[0])
   }
 
+  mapPhotoPreviews = () => {
+    return this.state.picture.map(picture => <Image src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>)
+  }
+
   render(){
     return(
       <Fragment>
-      <form onSubmit={this.handlePhotoUpload}>
+      <Form onSubmit={this.handlePhotoUpload}>
         <h2>Upload A Photo</h2>
-        <label>Story Title<input type="text" value={this.state.title} name="title" onChange={this.handlePhotoInputChange}></input></label>
-        <br></br>
-        <label>Caption<textarea value={this.state.caption} name="caption" onChange={this.handlePhotoInputChange}></textarea></label>
-        <br></br>
-        <label>Photo<input type="file" name="picture" multiple={true} accept="image/*"></input></label>
-        <input type="submit" value="Upload Your Photo"></input>
-      </form>
-      {this.state.picture[0] ? <img alt="" src={`http://localhost:3000${this.state.picture[0].picture.url}`} height="200" width="300"/> : <h1>Preview of Photos</h1>}
+        <Form.Field required>
+          <label>Story Title</label>
+          <Input type="text" value={this.state.title} name="title" placeholder="Story Title" onChange={this.handlePhotoInputChange}></Input>
+        </Form.Field>
+        <Form.Field required>
+          <label>Caption</label>
+          <TextArea value={this.state.caption} name="caption" placeholder="Photo Caption" onChange={this.handlePhotoInputChange}></TextArea>
+        </Form.Field>
+        <Form.Field required>
+          <label>Photo</label>
+          <Input type="file" name="picture" multiple={true} accept="image/*"></Input>
+        </Form.Field>
+        <Form.Field>
+          <Button type="submit">Upload Your Photo</Button>
+        </Form.Field>
+      </Form>
+      {this.state.picture[0] ? this.mapPhotoPreviews() : <h4>Preview of Photos</h4>}
       </Fragment>
     )
   }
