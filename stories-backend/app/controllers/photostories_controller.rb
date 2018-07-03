@@ -6,6 +6,7 @@ class PhotostoriesController < ApplicationController
 
   def show
     @photostory = PhotoStory.find_by(id: params[:id])
+
     render json: @photostory
   end
 
@@ -13,7 +14,6 @@ class PhotostoriesController < ApplicationController
     @photostory = PhotoStory.new
 
     @photostory.title = params[:title]
-
 
     if (@photostory.save)
       render json: {
@@ -30,6 +30,12 @@ class PhotostoriesController < ApplicationController
     @photostory = PhotoStory.find_by(id: params[:id])
 
     render json: @photostory.photos
+  end
+
+  def destroy
+    @photostory = PhotoStory.find_by(id: params[:id])
+
+    @photostory.destroy
   end
 
 end
