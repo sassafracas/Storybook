@@ -8,6 +8,7 @@ class Upload extends Component {
     title: "",
     description: "",
     caption: "",
+    private: false,
     picture: []
   }
 //make caption & title input a controlled element (will use for future added inputs)
@@ -15,6 +16,14 @@ class Upload extends Component {
     this.setState({
       [event.target.name]: event.target.value
     }, console.log(this.state))
+  }
+
+  handleRadioButton = (event, value) => {
+    event.persist();
+    console.log(value);
+    this.setState({
+      private: value.value
+    }, ()=> console.log(this.state))
   }
 //post state to database
   handlePhotoUpload = (event) => {
@@ -66,19 +75,48 @@ class Upload extends Component {
         <h2>Upload A Photo</h2>
         <Form.Field required>
           <label>Story Title</label>
-          <Input type="text" value={this.state.title} name="title" placeholder="Story Title" onChange={this.handlePhotoInputChange}></Input>
+          <Input
+            type="text"
+            value={this.state.title}
+            name="title" placeholder="Story Title"
+            onChange={this.handlePhotoInputChange}></Input>
         </Form.Field>
         <Form.Field>
           <label>Story Description</label>
-          <TextArea type="text" value={this.state.description} name="description" placeholder="Story Text" onChange={this.handlePhotoInputChange}></TextArea>
+          <TextArea
+            type="text"
+            value={this.state.description}
+            name="description"
+            placeholder="Story Text"
+            onChange={this.handlePhotoInputChange}></TextArea>
         </Form.Field>
         <Form.Field required>
           <label>Caption</label>
-          <TextArea value={this.state.caption} name="caption" placeholder="Photo Caption" onChange={this.handlePhotoInputChange}></TextArea>
+          <TextArea
+            value={this.state.caption}
+            name="caption"
+            placeholder="Photo Caption"
+            onChange={this.handlePhotoInputChange}></TextArea>
         </Form.Field>
+        <Form.Radio
+            label='Private'
+            value={true}
+            checked={this.state.private === true}
+            onChange={this.handleRadioButton}
+          />
+          <Form.Radio
+            label='Public'
+            value={false}
+            checked={this.state.private === false}
+            onChange={this.handleRadioButton}
+          />
         <Form.Field required>
           <label>Photo</label>
-          <Input type="file" name="picture" multiple={true} accept="image/*"></Input>
+          <Input
+            type="file"
+            name="picture"
+            multiple={true}
+            accept="image/*"></Input>
         </Form.Field>
         <Form.Field>
           <Button type="submit">Upload Your Photo</Button>
