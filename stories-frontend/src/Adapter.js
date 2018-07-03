@@ -23,8 +23,8 @@ class Adapter {
     })
   }
 
-  static getAllPhotoStories(){
-    return fetch("http://localhost:3000/photostories", {
+  static getAllPublicPhotoStories(){
+    return fetch("http://localhost:3000/photostories/public", {
       headers: {Authorization: localStorage.getItem('token')}
     })
   }
@@ -48,6 +48,8 @@ class Adapter {
       method: "POST"
     })
   }
+
+//Get all photostories not from current_user & not set to private
 
 }
 

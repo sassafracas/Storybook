@@ -9,7 +9,7 @@ state = {
 }
 
 componentDidMount(){
-  Adapter.getAllPhotoStories()
+  Adapter.getAllPublicPhotoStories()
   .then(r => r.json())
   .then(json => {return json.map(photostory => this.getPhotos(photostory))})
 }

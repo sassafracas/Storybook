@@ -1,7 +1,8 @@
 class PhotostoriesController < ApplicationController
 
-  def index
-    render json: PhotoStory.all
+  def public
+    # byebug
+    render json: PhotoStory.where(private: false)
   end
 
   def show
