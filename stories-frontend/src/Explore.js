@@ -4,31 +4,39 @@ import PhotoStory from "./PhotoStory"
 
 class Explore extends Component {
 
-  state = {
-    allPhotoStories: []
-  }
+state = {
+  allPhotoStories: [],
+}
 
-  componentDidMount(){
-    Adapter.getAllPhotoStories().then(r => r.json()).then(r => this.addAllPhotoStoriesToState(r))
-  }
+componentDidMount(){
+  Adapter.getAllPhotoStories()
+  .then(r => r.json())
+  .then(json => {return json.map(photostory => this.getPhotos(photostory))})
+}
 
-  addAllPhotoStoriesToState = (photoStoryObjArray) => {
-    this.setState({
-      allPhotoStories: photoStoryObjArray
-    })
-  }
+getPhotos = (photostory) => {
+  Adapter.getAllPhotosForStory(photostory.id).then(r => r.json()).then(json => this.addPhotosToState(json, photostory))
+}
 
-  mapAllPhotoStories = () => {
-    return this.state.allPhotoStories.map(photostory =>  {return <PhotoStory key={photostory.id} photostory={photostory}/>})
-  }
+addPhotosToState = (json, photostory) => {
+  photostory["photos"] = json
+  this.setState({
+    allPhotoStories: [...this.state.allPhotoStories, photostory]
+  }, () => console.log(this.state))
 
-  render(){
-    return(
-      <div>
+}
+
+mapAllPhotoStories = () => {
+  return this.state.allPhotoStories.map(photostory =>  {return <PhotoStory key={photostory.id} photostory={photostory}/>})
+}
+
+render(){
+  return(
+    <div>
       {this.mapAllPhotoStories()}
-      </div>
-    )
-  }
+    </div>
+  )
+}
 }
 
 export default Explore;

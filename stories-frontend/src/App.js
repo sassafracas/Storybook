@@ -9,6 +9,7 @@ import RegistrationForm from "./RegistrationForm"
 import Explore from "./Explore"
 import MyStories from "./MyStories"
 import Upload from "./Upload"
+import PhotoDetails from "./PhotoDetails"
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
               <Route exact path="/explore" component={Explore} />
               <Route exact path="/my-stories" component={MyStories} />
               <Route exact path="/upload" component={Upload} />
+              <Route exact path="/my-stories/:id" component={PhotoDetails} />
             </Fragment>
             :
             <Fragment>

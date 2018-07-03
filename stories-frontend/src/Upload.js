@@ -26,7 +26,7 @@ class Upload extends Component {
     let formData = new FormData();
     formData.append("caption", this.state.caption)
     formData.append("title", this.state.title)
-    formData.append("picture", event.target[2].files)
+    formData.append("picture", event.target[2].files[0])
     Adapter.postToPhotos(formData).then(r => r.json()).then(r => this.putPhotoOnScreen(r))
 
   }
@@ -43,9 +43,10 @@ class Upload extends Component {
     event.persist()
     console.log("handlePhotoClick before set state", event)
     this.setState({
-      picture: event.target.files["0"]
+      picture: event.target[2].files["0"]
     })
     //["[[Target]]"].target.files["0"]
+
     //["[[Target]]"].target.files
     console.log("handlePhotoClick ", event.target.files[0])
   }

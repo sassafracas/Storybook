@@ -7,18 +7,41 @@ const NavBar = (props) => {
     <header>
          { Adapter.isLoggedIn() ?
            <Fragment>
-             <NavLink exact to="/my-stories">My Stories</NavLink>
-             <NavLink exact to="/explore">Explore</NavLink>
-             <NavLink exact to="/upload">Upload</NavLink>
+             <NavLink
+               activeStyle={{
+                 fontWeight: 'bold',
+                 color: 'red'
+               }}
+               exact to="/my-stories">My Stories</NavLink>
+             <NavLink
+               activeStyle={{
+                 fontWeight: 'bold',
+                 color: 'red'
+               }}
+               exact to="/explore">Explore</NavLink>
+             <NavLink activeStyle={{
+                 fontWeight: 'bold',
+                 color: 'red'
+               }}exact to="/upload">Upload</NavLink>
              <button onClick={() => {
                  Adapter.logout();
                  props.history.push("/login");
                }}>Logout</button>
-               </Fragment>
+            </Fragment>
            :
              <Fragment>
-               <NavLink  exact to="/register">Registration</NavLink>
-               <NavLink  exact to="/login">Login</NavLink>
+               <NavLink
+                 activeStyle={{
+                   fontWeight: 'bold',
+                   color: 'red'
+                 }}
+                 exact to="/register">Registration</NavLink>
+               <NavLink
+                 activeStyle={{
+                   fontWeight: 'bold',
+                   color: 'red'
+                 }}
+                 exact to="/login">Login</NavLink>
              </Fragment>
          }
      </header>
