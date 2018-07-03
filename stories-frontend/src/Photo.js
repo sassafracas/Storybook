@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Adapter from "./Adapter";
 import { Segment, Card, Image, Modal, Button, Icon, Input } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 
 //map photos here
@@ -80,4 +81,4 @@ class Photo extends Component {
   }
 }
 
-export default Photo;
+export default withRouter(Photo);

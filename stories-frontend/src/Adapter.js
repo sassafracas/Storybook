@@ -42,6 +42,13 @@ class Adapter {
     })
   }
 
+  static deletePreviewPhoto(id) {
+    return fetch(`http://localhost:3000/photos/${id}`, {
+      headers: {Authorization: localStorage.getItem('token')},
+      method: "DELETE"
+    })
+  }
+
   static getCurrentUser(token) {
     return fetch('http://localhost:3000/users/token', {
       headers: {Authorization: token},

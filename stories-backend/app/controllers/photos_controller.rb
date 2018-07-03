@@ -47,4 +47,12 @@ class PhotosController < ApplicationController
     render json: @photo
   end
 
+  def destroy
+    @photo = Photo.find_by(id: params[:id])
+
+    @photo.destroy
+
+    render json: Photo.all
+  end
+
 end

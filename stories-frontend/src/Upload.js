@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Adapter from "./Adapter";
-import { Form, Input, TextArea, Button, Image } from 'semantic-ui-react';
+import { Form, Input, TextArea, Button, Image, Icon } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 class Upload extends Component {
 
@@ -66,7 +67,17 @@ class Upload extends Component {
   }
 
   mapPhotoPreviews = () => {
-    return this.state.picture.map(picture => <Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>)
+    return this.state.picture.map(picture => <Fragment><Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/><Button color="red" size="mini" compact icon basic attached="right" floated="left" onClick={(event, buttonInfo) => this.deletePhotoFromStateAndBackend(event, buttonInfo, picture)}><Icon name="x"/></Button></Fragment>)
+  }
+
+  deletePhotoFromStateAndBackend = (event, buttonInfo, picture) => {
+    event.persist();
+    console.log(event);
+    let deletedPhotoObjIndex = this.state.picture.findIndex((previewPhoto, index) => previewPhoto.id === picture.id)
+    console.log("deleted index ", deletedPhotoObjIndex);
+    this.setState({
+      picture: [...this.state.picture.slice(0, deletedPhotoObjIndex), ...this.state.picture.slice(deletedPhotoObjIndex+1)]
+    }, () => Adapter.deletePreviewPhoto(picture.id))
   }
 
   render(){
@@ -131,4 +142,4 @@ class Upload extends Component {
   }
 }
 
-export default Upload;
+export default withRouter(Upload);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Adapter from "./Adapter"
 import PhotoStory from "./PhotoStory"
-
+import { withRouter } from 'react-router-dom';
 //When I click on a story title, redirects to my-stories/${story.id}
 //Renders a PhotoDetails component with photostory & photos
 class MyStories extends Component {
@@ -20,4 +20,4 @@ class MyStories extends Component {
   }
 }
 
-export default MyStories;
+export default withRouter(MyStories);

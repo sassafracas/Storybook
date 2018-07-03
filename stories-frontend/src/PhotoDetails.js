@@ -3,6 +3,7 @@ import Photo from "./Photo";
 import { Container, Header, Divider, Segment, Modal, Button, Icon } from 'semantic-ui-react';
 import { Carousel } from 'react-responsive-carousel';
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { withRouter } from 'react-router-dom';
 
 class PhotoDetails extends Component {
 
@@ -35,4 +36,4 @@ class PhotoDetails extends Component {
 
 }
 
-export default PhotoDetails;
+export default withRouter(PhotoDetails);

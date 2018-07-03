@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get "/photostories/public", to: "photostories#public"
 
   resources :users, only: [:index, :show, :create, :token]
-  resources :photos, only: [:index, :show, :create, :update, :patch]
+  resources :photos, only: [:index, :show, :create, :update, :patch, :destroy]
   resources :photostories, only: [:show, :create, :destroy, :public]
   resources :sessions, only: [:create]
 

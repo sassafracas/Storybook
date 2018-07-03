@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, TextArea, Button, Image, Segment, Container } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 class RegistrationForm extends Component {
   state = {
@@ -60,4 +61,4 @@ class RegistrationForm extends Component {
   }
 }
 
-export default RegistrationForm;
+export default withRouter(RegistrationForm);

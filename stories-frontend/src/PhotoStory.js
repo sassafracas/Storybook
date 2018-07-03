@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Adapter from "./Adapter";
 import Photo from "./Photo";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Segment, Button } from 'semantic-ui-react';
 
 class PhotoStory extends Component {
@@ -21,4 +21,4 @@ class PhotoStory extends Component {
   }
 }
 
-export default PhotoStory;
+export default withRouter(PhotoStory);

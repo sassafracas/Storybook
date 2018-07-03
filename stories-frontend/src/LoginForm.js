@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input, TextArea, Button, Image, Segment, Container } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 class LoginForm extends Component {
 
@@ -33,4 +34,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);
