@@ -25,6 +25,10 @@ class App extends Component {
     localStorage.getItem('token') ? Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories()) : this.props.history.push("/")
   }
 
+  editCaptionInState = () => {
+    console.log("hi you're editing");
+  }
+
   getAllUserStories = () => {
     console.log(this.state);
     Adapter.getAllMyStories(localStorage.getItem('token'), this.state.currentUserId)
@@ -40,7 +44,7 @@ class App extends Component {
     photostory["photos"] = json
     this.setState({
       photostories: [...this.state.photostories, photostory]
-    }, () => console.log("mystories ",this.props))
+    }, () => console.log("add photos to state ",this.props))
 
   }
 
@@ -89,9 +93,9 @@ class App extends Component {
           { Adapter.isLoggedIn() ?
             <Fragment>
               <Route exact path="/explore" component={Explore} />
-              <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} {...props} />} />
+              <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
               <Route exact path="/upload" component={Upload} />
-              <Route exact path="/my-stories/:id" component={PhotoDetails} />
+              <Route exact path="/my-stories/:id" component={(props) => <PhotoDetails {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
             </Fragment>
             :
             <Fragment>

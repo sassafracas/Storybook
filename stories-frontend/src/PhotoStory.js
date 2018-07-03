@@ -16,10 +16,10 @@ class PhotoStory extends Component {
       <Segment vertical>
         <Link to={{
             pathname: `/my-stories/${this.props.photostory.id}`,
-            state: {...this.props}
+            state: this.props.photostory
           }}><h3>{this.props.photostory.title}</h3></Link>
           <button onClick={this.deletePhotostory}>Delete Story</button>
-          <Photo photos={this.props.photostory.photos}/>
+        <Photo photos={this.props.photostory.photos} history={this.props.history} editCaptionInState={this.props.editCaptionInState} />
       </Segment>
     )
   }

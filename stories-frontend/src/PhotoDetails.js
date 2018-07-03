@@ -17,17 +17,17 @@ class PhotoDetails extends Component {
                    </Button>}
           basic
           size='large'
-          centered="true">
+          centered={true}>
             <Modal.Content>
               <Carousel infiniteLoop useKeyboardArrows dynamicHeight>
-                {this.props.location.state.photostory.photos.map(photo => {return <div><img src={`http://localhost:3000${photo.picture.url}`} /> <p className="legend">{photo.caption}</p></div>})}
+                {this.props.history.location.state.photos.map(photo => {return <div key={photo.id}><img src={`http://localhost:3000${photo.picture.url}`} /> <p className="legend">{photo.caption}</p></div>})}
               </Carousel>
             </Modal.Content>
         </Modal>
-      <h1>{this.props.location.state.photostory.title}</h1>
-      <Photo routeInfo={this.props.location.pathname} photos={this.props.location.state.photostory.photos} />
+      <h1>{this.props.history.location.state.title}</h1>
+      <Photo routeInfo={this.props.history.location.pathname} photos={this.props.history.location.state.photos} />
       <Segment basic>
-        <Container text>{this.props.location.state.photostory.description ? <Fragment><Header as='h2'>Description</Header><Divider/>{this.props.location.state.photostory.description}</Fragment> : ""}</Container>
+        <Container text>{this.props.history.location.state.description ? <Fragment><Header as='h2'>Description</Header><Divider/>{this.props.history.location.state.description}</Fragment> : ""}</Container>
       </Segment>
       </div>
     )

@@ -24,7 +24,7 @@ class Photo extends Component {
 //have it send an update to the photo prop it's getting
   patchCaption = () => {
     console.log(this.state.selectedPhoto);
-    Adapter.updatePhotoCaption(this.state.selectedPhoto, this.state.caption).then(r=> r.json()).then(json => console.log("patch is goo ", json)).then(this.setState({editable: false}))
+    Adapter.updatePhotoCaption(this.state.selectedPhoto, this.state.caption).then(r=> r.json()).then(json => this.props.editCaptionInState(json)).then(this.setState({editable: false}))
 
   }
 
@@ -41,7 +41,7 @@ class Photo extends Component {
   mapLargePhotos = () => {
     return <Card.Group itemsPerRow={2}>
             {this.props.photos.map(photo => {return (
-              <Card fluid>
+              <Card key={photo.id} fluid>
                 <Modal closeOnDocumentClick={true} dimmer={"blurring"} size={"fullscreen"} trigger={<Image src={`http://localhost:3000${photo.picture.url}`} fluid/>}>
                 <Modal.Content image>
                   <Image src={`http://localhost:3000${photo.picture.url}`} wrapped fluid/>
@@ -59,7 +59,7 @@ class Photo extends Component {
   mapSmallPhotos = () => {
     return <Card.Group itemsPerRow={6}>
             {this.props.photos.map(photo => {return (
-              <Card>
+              <Card key={photo.id}>
                 <Image src={`http://localhost:3000${photo.picture.url}`}/>
                 <Card.Content>
                 <Card.Description key={photo.id}>{photo.caption}</Card.Description>
