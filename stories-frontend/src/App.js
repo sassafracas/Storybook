@@ -25,12 +25,20 @@ class App extends Component {
     localStorage.getItem('token') ? Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories()) : this.props.history.push("/")
   }
 
-  editCaptionInState = () => {
-    console.log("hi you're editing");
+  editCaptionInState = (editedPhoto) => {
+    let foundPhotostory = this.state.photostories.find(photostory => photostory.id === editedPhoto.photo_story_id)
+    let foundPhotoIndex = foundPhotostory.photos.findIndex((photo, index) => photo.id === editedPhoto.id)
+    this.setState({
+      photostories: [...this.state.photostories, foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
+    }, () => {
+      console.log("after setting state ", this.state.photostories)
+    })
+    console.log("photo index ", foundPhotoIndex);
+    console.log("hi you're editing ", this.state.photostories);
   }
 
   getAllUserStories = () => {
-    console.log(this.state);
+    console.log("get all user stories ", this.state);
     Adapter.getAllMyStories(localStorage.getItem('token'), this.state.currentUserId)
     .then(r => r.json())
     .then(json => {console.log("getallusers ", json);return json.map(photostory => this.getPhotos(photostory))})
@@ -55,7 +63,10 @@ class App extends Component {
     }, ()=> console.log(this.state))
   }
 
-
+  deletePhotostory = (photostory) => {
+    Adapter.deleteOnePhotostory(photostory.id).then(r => r.json()).then(r=> r.map(photostory=> this.getPhotos(photostory)))
+    console.log(photostory);
+  }
 
   handleInputChange = (event) => {
     this.setState({
@@ -93,7 +104,7 @@ class App extends Component {
           { Adapter.isLoggedIn() ?
             <Fragment>
               <Route exact path="/explore" component={Explore} />
-              <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
+              <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} history={props.history} deletePhotostory={this.deletePhotostory} editCaptionInState={this.editCaptionInState}  />} />
               <Route exact path="/upload" component={Upload} />
               <Route exact path="/my-stories/:id" component={(props) => <PhotoDetails {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
             </Fragment>
