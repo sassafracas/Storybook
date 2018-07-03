@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Adapter from "./Adapter";
-import { Form, Input, TextArea, Button, Image, Icon } from 'semantic-ui-react';
+import { Form, Input, TextArea, Button, Image, Icon, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 class Upload extends Component {
@@ -10,13 +10,49 @@ class Upload extends Component {
     description: "",
     caption: "",
     private: false,
-    picture: []
+    picture: [],
+    formErrors: {title: "", caption: "", picture: []},
+    inputPicture: [],
+    titleValid: false,
+    captionValid: false,
+    pictureValid: false,
+    formValid: false
   }
 //make caption & title input a controlled element (will use for future added inputs)
   handlePhotoInputChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
     this.setState({
-      [event.target.name]: event.target.value
-    }, console.log(this.state))
+      [name]: value
+    }, () => { this.validateField(name, value) })
+  }
+
+  validateField = (fieldName, fieldValue) => {
+    let fieldValidationErrors = this.state.formErrors;
+    let titleValid = this.state.titleValid
+    let captionValid = this.state.captionValid
+    let pictureValid = this.state.pictureValid
+
+    switch (fieldName) {
+      case 'title':
+        titleValid = fieldValue.length >= 1;
+        fieldValidationErrors.title = titleValid ? "" : " must be at least one character long";
+        break;
+      case 'caption':
+        captionValid = fieldValue.length >= 1;
+        fieldValidationErrors.caption = captionValid ? "" : " must be at least one character long";
+        break;
+      case 'inputPicture':
+        pictureValid = fieldValue.length >= 1;
+        fieldValidationErrors.picture = pictureValid ? "" : " must have at least one photo selected";
+      default:
+        break;
+    }
+    this.setState({ formErrors: fieldValidationErrors, titleValid, captionValid, pictureValid}, this.validateForm)
+  }
+
+  validateForm() {
+    this.setState({ formValid: this.state.titleValid && this.state.captionValid && this.state.pictureValid})
   }
 
   handleRadioButton = (event, value) => {
@@ -41,14 +77,26 @@ class Upload extends Component {
     formData.append("description", this.state.description)
     formData.append("private", this.state.private)
     formData.append("picture", event.target[5].files[0])
-    Adapter.postToPhotos(formData).then(r => r.json()).then(r => this.putPhotoOnScreen(r))
+    Adapter.postToPhotos(formData)
+      .then(r => r.json())
+      .then(r => this.putPhotoOnScreen(r))
 
+  }
+
+  photoChange = (event, data) => {
+    const name = "inputPicture"
+    const value = data.value
+    this.setState({
+      [name]: value
+    }, () => { this.validateField(name, value) })
   }
 
   putPhotoOnScreen = (photoObj) => {
     console.log("after posting to preview and after uploading to backend", photoObj);
     this.setState({
       caption: "",
+      captionValid: false,
+      formValid: false,
       picture: [...this.state.picture, photoObj]
     }, ()=> console.log("after setting picture state ", this.state))
   }
@@ -85,7 +133,7 @@ class Upload extends Component {
       <Fragment>
       <Form onSubmit={this.handlePhotoUpload}>
         <h2>Upload A Photo</h2>
-        <Form.Field required>
+        <Form.Field required error={!this.state.titleValid}>
           <label>Story Title</label>
           <Input
             type="text"
@@ -102,7 +150,7 @@ class Upload extends Component {
             placeholder="Story Text"
             onChange={this.handlePhotoInputChange}></TextArea>
         </Form.Field>
-        <Form.Field required>
+        <Form.Field required error={!this.state.captionValid}>
           <label>Caption</label>
           <TextArea
             value={this.state.caption}
@@ -110,6 +158,7 @@ class Upload extends Component {
             placeholder="Photo Caption"
             onChange={this.handlePhotoInputChange}></TextArea>
         </Form.Field>
+        {this.state.formErrors.caption ? <Message error header={this.state.formErrors.caption}/> : "" }
         <Form.Group inline>
         <Form.Radio
             label='Private'
@@ -124,16 +173,18 @@ class Upload extends Component {
             onChange={this.handleRadioButton}
           />
         </Form.Group>
-        <Form.Field required>
+        <Form.Field required error={!this.state.pictureValid}>
           <label>Photo</label>
           <Input
             type="file"
             name="picture"
             multiple={true}
-            accept="image/*"></Input>
+            accept="image/*"
+            onChange={(event, data) => this.photoChange(event, data)}
+            ></Input>
         </Form.Field>
         <Form.Field>
-          <Button type="submit">Upload Your Photo</Button>
+          <Button type="submit" disabled={!this.state.formValid}>Upload Your Photo</Button>
         </Form.Field>
       </Form>
       {this.state.picture[0] ? this.mapPhotoPreviews() : <h4>Preview of Photos</h4>}
