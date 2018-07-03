@@ -45,7 +45,7 @@ class Upload extends Component {
   }
 
   putPhotoOnScreen = (photoObj) => {
-    console.log(photoObj.picture.url);
+    console.log("after posting to preview and after uploading to backend", photoObj);
     this.setState({
       caption: "",
       picture: [...this.state.picture, photoObj]
@@ -66,7 +66,7 @@ class Upload extends Component {
   }
 
   mapPhotoPreviews = () => {
-    return this.state.picture.map(picture => <Image src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>)
+    return this.state.picture.map(picture => <Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>)
   }
 
   render(){

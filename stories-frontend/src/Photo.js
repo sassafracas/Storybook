@@ -19,7 +19,7 @@ class Photo extends Component {
   }
 
   makeCaptionAnInput = (photo) => {
-    return <Fragment><Input defaultValue={photo.caption} onChange={(event, buttonInfo) => this.changeCaptionState(event, buttonInfo)}></Input><Button onClick={this.patchCaption} type="submit">Done</Button></Fragment>
+    return <Fragment><Input defaultValue={photo.caption} onChange={(event, buttonInfo) => this.changeCaptionState(event, buttonInfo)}></Input><Button basic color="black" onClick={this.patchCaption} type="submit">Done</Button></Fragment>
   }
 //have it send an update to the photo prop it's getting
   patchCaption = () => {

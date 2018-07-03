@@ -6,7 +6,7 @@ import { Menu, Segment } from 'semantic-ui-react';
 class NavBar extends Component {
 
   state = {
-    activeItem: "my-stories"
+    activeItem: ""
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name }, ()=> this.props.history.push(`/${name}`))

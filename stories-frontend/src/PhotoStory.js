@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Adapter from "./Adapter";
 import Photo from "./Photo";
 import { Link } from 'react-router-dom';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Button } from 'semantic-ui-react';
 
 class PhotoStory extends Component {
 
@@ -14,7 +14,7 @@ class PhotoStory extends Component {
             pathname: `/my-stories/${this.props.photostory.id}`,
             state: this.props.photostory
           }}><h3>{this.props.photostory.title}</h3></Link>
-        <button onClick={() => this.props.deletePhotostory(this.props.photostory)}>Delete Story</button>
+        <Button basic color='red' compact size="small" floated="right" onClick={() => this.props.deletePhotostory(this.props.photostory)}>Delete Story</Button>
         <Photo photos={this.props.photostory.photos} history={this.props.history} editCaptionInState={this.props.editCaptionInState} />
       </Segment>
     )
