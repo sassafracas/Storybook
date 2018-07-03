@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-
+import Photo from "./Photo"
 class PhotoDetails extends Component {
 
-  // mapPhotos = () => {
-  //   return this.props.locaiton.state.photostory.photos.map(photoobj => {return <P})
-  // }
 
   render(){
-    console.log(this.props.location.state)
+    console.log(this.props)
     return(
+      <div>
       <h1>{this.props.location.state.photostory.title}</h1>
-      // {this.mapPhotos()}
+      <Photo photos={this.props.location.state.photostory.photos} />
+      </div>
     )
   }
 
