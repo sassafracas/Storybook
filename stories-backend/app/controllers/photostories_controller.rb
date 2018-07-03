@@ -12,12 +12,14 @@ class PhotostoriesController < ApplicationController
 
   def create
     @photostory = PhotoStory.new
-
+    byebug
     @photostory.title = params[:title]
+    @photostory.description = params[:description]
 
     if (@photostory.save)
       render json: {
         title: @photostory.title,
+        description: @photostory.description
       }
     else
       render json: {

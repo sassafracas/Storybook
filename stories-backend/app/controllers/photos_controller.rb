@@ -17,12 +17,14 @@ class PhotosController < ApplicationController
       # byebug
     end
     @photostory.title = params[:title]
+    @photostory.description = params[:description]
+
     @photo = Photo.new
     @photo.caption = params[:caption]
     @photo.picture = params[:picture]
     # byebug
     @user.photo_stories.find_by(id: @photostory.id).photos.push(@photo)
-
+    @photostory.save
     if (@photo.save)
       render json: {
         id: @photo.id,
