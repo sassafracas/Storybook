@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-   before_action :requires_login, only: [:index, :show]
+   before_action :requires_login, only: [:index, :show, :token]
    before_action :is_admin, only: [:index]
 
   def index
@@ -28,6 +28,15 @@ class UsersController < ApplicationController
         errors: @user.errors.full_messages
       }, status: :unprocessable_entity
     end
+  end
+
+  def token
+    @user = User.find_by(id: decoded_token[0]["id"])
+
+    render json: {
+      username: @user.username,
+      id: @user.id
+    }
   end
 
   def user_photo_stories

@@ -16,8 +16,8 @@ class Adapter {
     })
   }
 
-  static getAllMyStories(token) {
-    const id = 1
+  static getAllMyStories(token, id) {
+    console.log("adapter id", id);
     return fetch(`http://localhost:3000/users/${id}/photostories`, {
       headers: {Authorization: token}
     })
@@ -39,6 +39,13 @@ class Adapter {
     return fetch(`http://localhost:3000/photostories/${id}`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "DELETE"
+    })
+  }
+
+  static getCurrentUser(token) {
+    return fetch('http://localhost:3000/users/token', {
+      headers: {Authorization: token},
+      method: "POST"
     })
   }
 
