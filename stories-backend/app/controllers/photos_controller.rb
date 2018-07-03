@@ -18,6 +18,7 @@ class PhotosController < ApplicationController
     end
     @photostory.title = params[:title]
     @photostory.description = params[:description]
+    @photostory.private = params[:private]
 
     @photo = Photo.new
     @photo.caption = params[:caption]

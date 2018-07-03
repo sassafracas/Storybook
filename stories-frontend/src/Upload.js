@@ -38,7 +38,8 @@ class Upload extends Component {
     formData.append("caption", this.state.caption)
     formData.append("title", this.state.title)
     formData.append("description", this.state.description)
-    formData.append("picture", event.target[3].files[0])
+    formData.append("private", this.state.private)
+    formData.append("picture", event.target[5].files[0])
     Adapter.postToPhotos(formData).then(r => r.json()).then(r => this.putPhotoOnScreen(r))
 
   }
@@ -98,6 +99,7 @@ class Upload extends Component {
             placeholder="Photo Caption"
             onChange={this.handlePhotoInputChange}></TextArea>
         </Form.Field>
+        <Form.Group inline>
         <Form.Radio
             label='Private'
             value={true}
@@ -110,6 +112,7 @@ class Upload extends Component {
             checked={this.state.private === false}
             onChange={this.handleRadioButton}
           />
+        </Form.Group>
         <Form.Field required>
           <label>Photo</label>
           <Input
