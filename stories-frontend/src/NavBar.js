@@ -42,7 +42,7 @@ class NavBar extends Component {
       </Menu>
 
            :
-             <Menu pointing secondary>
+             <Menu pointing secondary style={{"margin-bottom": "0px"}}>
                <Menu.Item name="register" active={activeItem === 'register'} onClick={this.handleItemClick}>
                  Register
                </Menu.Item>
