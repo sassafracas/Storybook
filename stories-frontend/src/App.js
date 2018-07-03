@@ -28,9 +28,10 @@ class App extends Component {
 
   editCaptionInState = (editedPhoto) => {
     let foundPhotostory = this.state.photostories.find(photostory => photostory.id === editedPhoto.photo_story_id)
+    console.log("found photostory", foundPhotostory);
     let foundPhotoIndex = foundPhotostory.photos.findIndex((photo, index) => photo.id === editedPhoto.id)
     this.setState({
-      photostories: [...this.state.photostories, foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
+      photostories: [...this.state.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
     }, () => {
       console.log("after setting state ", this.state.photostories)
     })
