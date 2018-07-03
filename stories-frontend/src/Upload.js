@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Adapter from "./Adapter"
 
 class Upload extends Component {
@@ -8,7 +8,7 @@ class Upload extends Component {
     caption: "",
     picture: []
   }
-//make caption input a controlled element (will use for future added inputs)
+//make caption & title input a controlled element (will use for future added inputs)
   handlePhotoInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
@@ -26,8 +26,15 @@ class Upload extends Component {
     formData.append("caption", this.state.caption)
     formData.append("title", this.state.title)
     formData.append("picture", event.target[2].files[0])
-    Adapter.postToPhotos(formData).then(r => r.json()).then(r => console.log(r))
-    
+    Adapter.postToPhotos(formData).then(r => r.json()).then(r => this.putPhotoOnScreen(r))
+
+  }
+
+  putPhotoOnScreen = (photoObj) => {
+    console.log(photoObj.picture.url);
+    this.setState({
+      picture: [...this.state.picture, photoObj]
+    }, ()=> console.log("after setting picture state ", this.state))
   }
 
 //change state to include picture
@@ -44,6 +51,7 @@ class Upload extends Component {
 
   render(){
     return(
+      <Fragment>
       <form onSubmit={this.handlePhotoUpload}>
         <h2>Upload A Photo</h2>
         <label>Story Title<input type="text" value={this.state.title} name="title" onChange={this.handlePhotoInputChange}></input></label>
@@ -53,6 +61,8 @@ class Upload extends Component {
         <label>Photo<input type="file" name="picture" accept="image/*"></input></label>
         <input type="submit" value="Upload Your Photo"></input>
       </form>
+      {this.state.picture[0] ? <img alt="" src={`http://localhost:3000${this.state.picture[0].picture.url}`} /> : <h1>yo</h1>}
+      </Fragment>
     )
   }
 }
