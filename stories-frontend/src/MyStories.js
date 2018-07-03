@@ -11,6 +11,7 @@ class MyStories extends Component {
   }
 
   render(){
+    console.log("mystories", this.props);
     return(
       <div>
         {this.mapPhotoStories()}

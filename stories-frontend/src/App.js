@@ -29,7 +29,7 @@ class App extends Component {
     console.log(this.state);
     Adapter.getAllMyStories(localStorage.getItem('token'), this.state.currentUserId)
     .then(r => r.json())
-    .then(json => {console.log(json);return json.map(photostory => this.getPhotos(photostory))})
+    .then(json => {console.log("getallusers ", json);return json.map(photostory => this.getPhotos(photostory))})
   }
 
   getPhotos = (photostory) => {
@@ -71,10 +71,14 @@ class App extends Component {
     })
       .then(r => r.json())
       .then(json => {
-        this.setState({currentUserId: json.id});
-        localStorage.setItem('token', json.token);
-        this.props.history.push("/my-stories");
+        this.setState({currentUserId: json.id}, this.setTokenAndPushHistory(json))
       })
+  }
+
+  setTokenAndPushHistory = (json) => {
+    localStorage.setItem('token', json.token);
+    Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories())
+    this.props.history.push("/my-stories");
   }
 
   render() {
