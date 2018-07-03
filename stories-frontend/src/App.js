@@ -18,6 +18,7 @@ class App extends Component {
     password: "",
     currentUserId: "",
     photostories: [],
+    errors: ""
   }
 
   componentDidMount(){
@@ -60,7 +61,7 @@ class App extends Component {
     this.setState({
       currentUserId: r.id,
       username: r.username
-    }, ()=> console.log(this.state))
+    }, ()=> console.log("add token info to state ", this.state))
   }
 
   deletePhotostory = (photostory) => {
@@ -77,13 +78,11 @@ class App extends Component {
 
   }
 
-  handleInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+  clearErrorState = () => {
+    this.setState({ errors: ""})
   }
 
-  handleLogInSubmit = (event) => {
+  handleLogInSubmit = (event, username, password) => {
     event.preventDefault()
 
     fetch(`http://localhost:3000/sessions/`, {
@@ -91,11 +90,13 @@ class App extends Component {
       headers: {
         "Content-Type": 'application/json'
       },
-      body: JSON.stringify({username: this.state.username, password: this.state.password})
+      body: JSON.stringify({username, password})
     })
       .then(r => r.json())
       .then(json => {
-        this.setState({currentUserId: json.id}, this.setTokenAndPushHistory(json))
+        if (json.errors){ this.setState({ errors: json.errors}) } else {
+        console.log("handle login submit response ", json);
+        this.setState({currentUserId: json.id, username: json.username}, this.setTokenAndPushHistory(json))}
       })
   }
 
@@ -108,7 +109,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar routeInfo={this.props}/>
+        <NavBar routeInfo={this.props} clearErrorState={this.clearErrorState}/>
         <Route exact path="/" component={Welcome} />
           { Adapter.isLoggedIn() ?
             <Fragment>
@@ -119,7 +120,7 @@ class App extends Component {
             </Fragment>
             :
             <Fragment>
-              <Redirect to="/" />
+
               <Route exact path="/register" component={(props) => <RegistrationForm {...props} />} />
               <Route exact path="/login" component={(props) => <LoginForm {...this.state} {...props} handleLogInSubmit={this.handleLogInSubmit} handleInputChange={this.handleInputChange}/>} />
             </Fragment>

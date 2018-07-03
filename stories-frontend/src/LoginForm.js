@@ -1,30 +1,43 @@
 import React, { Component } from "react";
-import { Form, Input, TextArea, Button, Image, Segment, Container } from 'semantic-ui-react';
+import { Form, Input, TextArea, Button, Image, Segment, Container, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 class LoginForm extends Component {
+
+  state = {
+    username: "",
+    password: ""
+  }
+
+  handleInputChange = (event) => {
+    console.log("handle input change ", event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
 
   render(){
     console.log("log in form props ", this.props)
     return (
       <Container text>
-      <Form onSubmit={this.props.handleLogInSubmit}>
+        {this.props.errors ? <Message error header={this.props.errors}/> : "" }
+      <Form onSubmit={(event)=>this.props.handleLogInSubmit(event, this.state.username, this.state.password)}>
         <Form.Field>
         <label htmlFor="username">Username</label>
           <Input
             type="text"
-            value={this.props.username}
+            value={this.state.username}
             name="username"
-            onChange={this.props.handleInputChange}>
+            onChange={this.handleInputChange}>
           </Input>
           </Form.Field>
           <Form.Field>
         <label htmlFor="password">Password</label>
           <Input
             type="password"
-            value={this.props.password}
+            value={this.state.password}
             name="password"
-            onChange={this.props.handleInputChange}>
+            onChange={this.handleInputChange}>
           </Input>
           </Form.Field>
           <Input type="submit" value="Log In"></Input>

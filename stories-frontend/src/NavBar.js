@@ -34,6 +34,7 @@ class NavBar extends Component {
                <Menu.Item name="logout" active={activeItem === 'logout'} onClick={() => {
                    this.handleItemClick;
                    Adapter.logout();
+                   this.props.clearErrorState()
                    this.props.routeInfo.history.push("/login");
                  }}>
                </Menu.Item>
@@ -41,7 +42,7 @@ class NavBar extends Component {
       </Menu>
 
            :
-             <Menu>
+             <Menu pointing secondary>
                <Menu.Item name="register" active={activeItem === 'register'} onClick={this.handleItemClick}>
                  Register
                </Menu.Item>

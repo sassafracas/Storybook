@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Form, Input, TextArea, Button, Image, Segment, Container } from 'semantic-ui-react';
+import { Form, Input, TextArea, Button, Image, Segment, Container, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 class RegistrationForm extends Component {
   state = {
     username: "",
     password: "",
+    regErrors: ""
   }
 
   handleChange = (event) => {
@@ -26,15 +27,17 @@ class RegistrationForm extends Component {
     })
       .then(res => res.json())
       .then(json => {
+        if (json.errors) {this.setState({ regErrors: json.errors})} else {
         console.log(json);
         localStorage.setItem('token', json.token);
         this.props.history.push("/");
-      })
+      }})
   }
 
   render() {
     return (
       <Container text>
+        {this.state.regErrors ? <Message error header={this.state.regErrors}/> : "" }
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
         <label htmlFor="username">Username</label>

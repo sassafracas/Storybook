@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
+import { Segment, Header } from 'semantic-ui-react';
 
 class Welcome extends Component {
   render(){
     return (
-      <div>
-        <h1>Welcome to Stories</h1>
-      </div>
+      <Segment basic>
+        <Header as="h2">Welcome to Story</Header>
+      </Segment>
     )
   }
 }
