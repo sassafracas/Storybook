@@ -6,6 +6,7 @@
     "file-loader": "^1.1.11",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-infinite-scroller": "^1.2.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "semantic-ui-css": "^2.3.3",
