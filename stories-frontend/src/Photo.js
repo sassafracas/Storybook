@@ -1,28 +1,37 @@
 import React, { Component } from "react";
-import Adapter from "./Adapter"
+import Adapter from "./Adapter";
+import { Segment, Card, Image } from 'semantic-ui-react';
 
 
 //map photos here
 class Photo extends Component {
 
   mapLargePhotos = () => {
-    return this.props.photos.map(photo => {return (
-      <React.Fragment>
-      <h3 key={photo.id}>{photo.caption}</h3>
-        <img src={`http://localhost:3000${photo.picture.url}`} height="400" width="700"/>
-      </React.Fragment>
-        )
-      })
+    return <Card.Group itemsPerRow={2}>
+            {this.props.photos.map(photo => {return (
+              <Card fluid>
+                <Image src={`http://localhost:3000${photo.picture.url}`} fluid/>
+                <Card.Content>
+                  <Card.Header key={photo.id}>{photo.caption}</Card.Header>
+                </Card.Content>
+              </Card>
+            )
+          })}
+        </Card.Group>
   }
 
   mapSmallPhotos = () => {
-    return this.props.photos.map(photo => {return (
-      <React.Fragment>
-      <h5 key={photo.id}>{photo.caption}</h5>
-        <img src={`http://localhost:3000${photo.picture.url}`} height="200" width="300"/>
-      </React.Fragment>
-        )
-      })
+    return <Card.Group itemsPerRow={6}>
+            {this.props.photos.map(photo => {return (
+              <Card>
+                <Image src={`http://localhost:3000${photo.picture.url}`}/>
+                <Card.Content>
+                <Card.Description key={photo.id}>{photo.caption}</Card.Description>
+                </Card.Content>
+              </Card>
+            )
+          })}
+        </Card.Group>
   }
 
   render() {
