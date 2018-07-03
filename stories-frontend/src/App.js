@@ -18,7 +18,8 @@ class App extends Component {
     password: "",
     currentUserId: "",
     photostories: [],
-    errors: ""
+    errors: "",
+    forceRefresh: false,
   }
 
   componentDidMount(){
@@ -37,6 +38,19 @@ class App extends Component {
     })
     console.log("photo index ", foundPhotoIndex);
     console.log("hi you're editing ", this.state.photostories);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("next props it will recieve", nextProps.location.pathname);
+    console.log("current props", this.props.location.pathname);
+    if (this.props.location.pathname === "/upload" && nextProps.location.pathname === "/my-stories") {
+      this.forceRefresh()
+    }
+
+  }
+
+  forceRefresh = () => {
+    window.location.reload()
   }
 
   getAllUserStories = () => {
