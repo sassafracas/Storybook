@@ -18,7 +18,7 @@ class NavBar extends Component {
   return (
         <Fragment>
          { Adapter.isLoggedIn() ?
-      <Menu pointing secondary>
+      <Menu pointing secondary style={{"marginBottom": "0px"}}>
            <Menu.Menu>
              <Menu.Item name="my-stories" active={activeItem === 'my-stories'} onClick={this.handleItemClick}>
                My Stories

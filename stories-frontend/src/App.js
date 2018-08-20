@@ -53,13 +53,11 @@ class App extends Component {
 
 
   //make caption & title input a controlled element (will use for future added inputs)
-    handlePhotoInputChange = (event) => {
-      console.log(this.state);
-      let name = event.target.name
-      let value = event.target.value
+    handlePhotoInputChange = (event, data) => {
+      console.log("handle input change ", data);
       this.setState({
-        [event.target.name]: event.target.value
-      }, () => { this.validateField(name, value) })
+        [data.name]: data.value
+      }, () => { this.validateField(data.name, data.value) })
     }
 
     validateField = (fieldName, fieldValue) => {
@@ -237,8 +235,9 @@ class App extends Component {
                                         editCaptionInState={this.editCaptionInState}  />} />
               <Route
                 exact path="/upload"
-                component={(props) => <Upload {...this.state}
-                                        history={props.history}
+                render={() => <Upload {...this.state}
+                                        key="upload1"
+
                                         handlePhotoInputChange={this.handlePhotoInputChange}
                                         validateField={this.validateField}
                                         handleRadioButton={this.handleRadioButton}

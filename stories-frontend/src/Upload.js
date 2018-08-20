@@ -8,8 +8,9 @@ class Upload extends Component {
 
 
   render(){
+    console.log("upload props ", this.props);
     return(
-      <Fragment>
+      <Fragment key={v4()}>
       <Form onSubmit={this.props.handlePhotoUpload} key={v4()}>
         <h2>Upload A Photo</h2>
         <Form.Field key={v4()} required error={!this.props.titleValid}>
@@ -20,7 +21,7 @@ class Upload extends Component {
             value={this.props.title}
             name="title"
             placeholder="Story Title"
-            onChange={this.props.handlePhotoInputChange}></Input>
+            onChange={(event, data)=> this.props.handlePhotoInputChange(event, data)}></Input>
         </Form.Field>
         <Form.Field key={v4()}>
           <label>Story Description</label>
@@ -30,7 +31,7 @@ class Upload extends Component {
             value={this.props.description}
             name="description"
             placeholder="Story Text"
-            onChange={this.props.handlePhotoInputChange}></TextArea>
+            onChange={(event, data)=> this.props.handlePhotoInputChange(event, data)}></TextArea>
         </Form.Field>
         <Form.Field key={v4()} required error={!this.props.captionValid}>
           <label>Caption</label>
