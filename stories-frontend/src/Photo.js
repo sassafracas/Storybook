@@ -49,7 +49,7 @@ class Photo extends Component {
                 </Modal.Content>
                 </Modal>
                 <Card.Content>
-                  <Card.Header key={photo.id}>  <Button basic icon floated="left" size="mini" onClick={(event, buttonInfo) => this.makeEditable(event, buttonInfo, photo)}> <Icon name='edit'/></Button>{this.state.selectedPhoto === photo.id && this.state.editable ? this.makeCaptionAnInput(photo) : photo.caption}</Card.Header>
+                  <Card.Header key={photo.id}>  {this.props.history.location.state.user_id == this.props.currentUser ? <Button basic icon floated="left" size="mini" onClick={(event, buttonInfo) => this.makeEditable(event, buttonInfo, photo)}> <Icon name='edit'/></Button> : ""}{this.state.selectedPhoto === photo.id && this.state.editable ? this.makeCaptionAnInput(photo) : photo.caption}</Card.Header>
                 </Card.Content>
               </Card>
             )

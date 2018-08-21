@@ -26,7 +26,7 @@ class PhotoDetails extends Component {
             </Modal.Content>
         </Modal>
       <h1>{this.props.history.location.state.title}</h1>
-      <Photo routeInfo={this.props.history.location.pathname} photos={this.props.history.location.state.photos} editCaptionInState={this.props.editCaptionInState}/>
+      <Photo routeInfo={this.props.history.location.pathname} photos={this.props.history.location.state.photos} editCaptionInState={this.props.editCaptionInState} currentUser={this.props.currentUserId}/>
       <Segment basic>
         <Container text>{this.props.history.location.state.description ? <Fragment><Header as='h2'>Description</Header><Divider/>{this.props.history.location.state.description}</Fragment> : ""}</Container>
       </Segment>
