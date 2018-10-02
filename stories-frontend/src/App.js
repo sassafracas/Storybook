@@ -11,6 +11,7 @@ import MyStories from "./MyStories"
 import Upload from "./Upload"
 import PhotoDetails from "./PhotoDetails"
 import { Form, Input, TextArea, Button, Image, Icon, Message } from 'semantic-ui-react';
+import { connect } from "react-redux";
 
 class App extends Component {
 
@@ -217,6 +218,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("redux ", this.props.hi);
     return (
       <div className="App">
         <NavBar routeInfo={this.props} clearErrorState={this.clearErrorState}/>
@@ -270,4 +272,11 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+function mapStateToProps(state) {
+  return {
+    hi: "hello"
+  }
+}
+
+
+export default withRouter(connect(mapStateToProps)(App));

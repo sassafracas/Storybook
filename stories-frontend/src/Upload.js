@@ -3,6 +3,9 @@ import Adapter from "./Adapter";
 import { Form, Input, TextArea, Button, Image, Icon, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { v4 } from "uuid";
+import { Field, reduxForm } from 'redux-form';
+import { InputField, TextAreaField } from 'react-semantic-redux-form';
+
 class Upload extends Component {
 
 
@@ -13,36 +16,40 @@ class Upload extends Component {
       <Fragment key={v4()}>
       <Form onSubmit={this.props.handlePhotoUpload} key={v4()}>
         <h2>Upload A Photo</h2>
-        <Form.Field key={v4()} required error={!this.props.titleValid}>
-          <label>Story Title</label>
-          <Input
-            key={v4()}
-            type="text"
-            value={this.props.title}
-            name="title"
-            placeholder="Story Title"
-            onChange={(event, data)=> this.props.handlePhotoInputChange(event, data)}></Input>
-        </Form.Field>
-        <Form.Field key={v4()}>
-          <label>Story Description</label>
-          <TextArea
-            key={v4()}
-            type="text"
-            value={this.props.description}
-            name="description"
-            placeholder="Story Text"
-            onChange={(event, data)=> this.props.handlePhotoInputChange(event, data)}></TextArea>
-        </Form.Field>
-        <Form.Field key={v4()} required error={!this.props.captionValid}>
-          <label>Caption</label>
-          <TextArea
-            key={v4()}
-            value={this.props.caption}
-            name="caption"
-            placeholder="Photo Caption"
-            onChange={this.props.handlePhotoInputChange}></TextArea>
-        </Form.Field>
+        <Field
+          key={v4()}
+          component={InputField}
+          required
+          error={!this.props.titleValid}
+          label="Story Title"
+          type="text"
+          value={this.props.title}
+          name="title"
+          placeholder="Story Title"
+          onChange={(event, data)=> this.props.handlePhotoInputChange(event, data)} />
+        <Field
+          component={TextAreaField}
+          label="Story Description"
+          key={v4()}
+          type="text"
+          value={this.props.description}
+          name="description"
+          placeholder="Story Text"
+          onChange={(event, data)=> this.props.handlePhotoInputChange(event, data)} />
+
+        <Field
+          component={TextAreaField}
+          key={v4()}
+          required
+          error={!this.props.captionValid}
+          label="Caption"
+          value={this.props.caption}
+          name="caption"
+          placeholder="Photo Caption"
+          onChange={this.props.handlePhotoInputChange} />
+
         {this.props.formErrors.caption ? <Message error header={this.props.formErrors.caption}/> : "" }
+
         <Form.Group inline>
         <Form.Radio
             label='Private'
@@ -78,4 +85,4 @@ class Upload extends Component {
   }
 }
 
-export default withRouter(Upload);
+export default withRouter(reduxForm({form: "uploadForm"})(connect(mapStateToProps)(Upload)));
