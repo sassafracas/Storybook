@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Form, Input, TextArea, Button, Image, Segment, Container, Message } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 class LoginForm extends Component {
 
@@ -8,49 +10,41 @@ class LoginForm extends Component {
   }
 
   handleInputChange = (event) => {
+    console.log("handle input change ", event.target.value);
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  handleLogInSubmit = (event) => {
-    event.preventDefault()
-
-    fetch(`http://localhost:3000/sessions/`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    })
-      .then(r => r.json())
-      .then(json => {
-        localStorage.setItem('token', json.token);
-        this.props.history.push("/");
-      })
-  }
-
   render(){
+    console.log("log in form props ", this.props)
     return (
-      <form onSubmit={this.handleLogInSubmit}>
+      <Container text style={{"margin-top": "300px"}}>
+        {this.props.errors ? <Message error header={this.props.errors}/> : "" }
+      <Form onSubmit={(event)=>this.props.handleLogInSubmit(event, this.state.username, this.state.password)}>
+        <Form.Field>
         <label htmlFor="username">Username</label>
-          <input
+          <Input
             type="text"
             value={this.state.username}
             name="username"
             onChange={this.handleInputChange}>
-          </input>
+          </Input>
+          </Form.Field>
+          <Form.Field>
         <label htmlFor="password">Password</label>
-          <input
+          <Input
             type="password"
             value={this.state.password}
             name="password"
             onChange={this.handleInputChange}>
-          </input>
-          <input type="submit" value="Log In"></input>
-        </form>
+          </Input>
+          </Form.Field>
+          <Input type="submit" value="Log In"></Input>
+        </Form>
+      </Container>
     )
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

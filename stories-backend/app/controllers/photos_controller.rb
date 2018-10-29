@@ -11,20 +11,22 @@ class PhotosController < ApplicationController
 
   def create
     @user = User.find_by(id: decoded_token[0]["id"])
-    @photostory = PhotoStory.new
+    @photostory = PhotoStory.find_or_create_by(title: params[:title]) do |photo_story|
+      @user.photo_stories.push(photo_story)
+      @photostory = photo_story
+      # byebug
+    end
     @photostory.title = params[:title]
-    @user.photo_stories.push(@photostory)
-    @photostory.save
+    @photostory.description = params[:description]
+    @photostory.private = params[:private]
+
     @photo = Photo.new
     @photo.caption = params[:caption]
     @photo.picture = params[:picture]
-    @user.photo_stories.last.photos.push(@photo)
-
-
-
-
+    # byebug
+    @user.photo_stories.find_by(id: @photostory.id).photos.push(@photo)
+    @photostory.save
     if (@photo.save)
-
       render json: {
         id: @photo.id,
         caption: @photo.caption,
@@ -35,6 +37,22 @@ class PhotosController < ApplicationController
         errors: @photo.errors.full_messages
       }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    @photo = Photo.find_by(id: params[:id])
+    @photo.update(caption: params[:caption])
+    @photo.save
+
+    render json: @photo
+  end
+
+  def destroy
+    @photo = Photo.find_by(id: params[:id])
+
+    @photo.destroy
+
+    render json: Photo.all
   end
 
 end

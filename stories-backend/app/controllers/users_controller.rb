@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-   before_action :requires_login, only: [:index, :show]
+   before_action :requires_login, only: [:index, :show, :token]
    before_action :is_admin, only: [:index]
 
   def index
@@ -30,8 +30,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def token
+    @user = User.find_by(id: decoded_token[0]["id"])
+
+    render json: {
+      username: @user.username,
+      id: @user.id
+    }
+  end
+
   def user_photo_stories
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find_by(id: params[:id])
 
     render json: @user.photo_stories
   end

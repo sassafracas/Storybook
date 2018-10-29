@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { Form, Input, TextArea, Button, Image, Segment, Container, Message } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 class RegistrationForm extends Component {
   state = {
     username: "",
     password: "",
+    regErrors: ""
   }
 
   handleChange = (event) => {
@@ -24,37 +27,41 @@ class RegistrationForm extends Component {
     })
       .then(res => res.json())
       .then(json => {
+        if (json.errors) {this.setState({ regErrors: json.errors})} else {
         console.log(json);
         localStorage.setItem('token', json.token);
         this.props.history.push("/");
-      })
+      }})
   }
 
   render() {
     return (
-      <div className="registration">
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="username">Username</label>
-          <input
+      <Container text style={{"margin-top": "300px"}}>
+        {this.state.regErrors ? <Message error header={this.state.regErrors}/> : "" }
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Field>
+        <label htmlFor="username">Username</label>
+          <Input
             type="text"
-            name="username"
-            placeholder="Username"
-            onChange={this.handleChange}
             value={this.state.username}
-          />
-          <label htmlFor="password">Password</label>
-          <input
+            name="username"
+            onChange={this.handleChange}>
+          </Input>
+          </Form.Field>
+          <Form.Field>
+        <label htmlFor="password">Password</label>
+          <Input
             type="password"
-            name="password"
-            placeholder="Password"
-            onChange={this.handleChange}
             value={this.state.password}
-          />
-          <input type="submit" value="Register" />
-        </form>
-      </div>
+            name="password"
+            onChange={this.handleChange}>
+          </Input>
+          </Form.Field>
+          <Input type="submit" value="Register"></Input>
+        </Form>
+      </Container>
     )
   }
 }
 
-export default RegistrationForm;
+export default withRouter(RegistrationForm);
