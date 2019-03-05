@@ -41,7 +41,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("next props it will recieve", nextProps.location.pathname);
+    console.log("next props it will receive", nextProps.location.pathname);
     console.log("current props", this.props.location.pathname);
     if (this.props.location.pathname === "/upload" || this.props.location.pathname === "/login" || this.props.location.pathname === "/register" && nextProps.location.pathname === "/my-stories") {
       this.forceRefresh()
