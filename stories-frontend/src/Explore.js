@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Adapter from "./Adapter"
-import PhotoStory from "./PhotoStory"
+import MyStoriesItem from "./MyStoriesItem"
 
 class Explore extends Component {
 
@@ -27,7 +27,7 @@ addPhotosToState = (json, photostory) => {
 }
 
 mapAllPhotoStories = () => {
-  return this.state.allPhotoStories.map(photostory =>  {return <PhotoStory key={photostory.id} photostory={photostory}/>})
+  return this.state.allPhotoStories.map(photostory =>  {return <MyStoriesItem key={photostory.id} photostory={photostory}/>})
 }
 
 render(){

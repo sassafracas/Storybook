@@ -1,24 +1,39 @@
-import React, { Component } from "react";
-import Adapter from "./Adapter";
+import React, { Component, Fragment } from "react";
 import Photo from "./Photo";
-import { Link, withRouter } from 'react-router-dom';
-import { Segment, Button } from 'semantic-ui-react';
+import { Container, Header, Divider, Segment, Modal, Button, Icon } from 'semantic-ui-react';
+import { Carousel } from 'react-responsive-carousel';
+import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { withRouter } from 'react-router-dom';
 
 class PhotoStory extends Component {
 
-  render() {
-   console.log("photostory props ", this.props)
-    return (
-      <Segment vertical>
-        <Link to={{
-            pathname: `/my-stories/${this.props.photostory.id}`,
-            state: this.props.photostory
-          }}><h3>{this.props.photostory.title}</h3></Link>
-        {this.props.location.pathname === "/explore" ? "" : <Button basic color='red' compact size="small" floated="right" onClick={() => this.props.deletePhotostory(this.props.photostory)}>Delete Story</Button>}
-        <Photo photos={this.props.photostory.photos} history={this.props.history} editCaptionInState={this.props.editCaptionInState} />
+  render(){
+    console.log("inside photostory ",this.props)
+    return(
+      <div>
+        <Modal
+          trigger={<Button floated="right" animated basic color="black">
+                    <Button.Content visible>Slideshow</Button.Content>
+                    <Button.Content hidden><Icon name='images'/></Button.Content>
+                   </Button>}
+          basic
+          size='large'
+          centered={true}>
+            <Modal.Content>
+              <Carousel infiniteLoop useKeyboardArrows dynamicHeight>
+                {this.props.history.location.state.photos.map(photo => {return <div key={photo.id}><img src={`http://localhost:3000${photo.picture.url}`} /> <p className="legend">{photo.caption}</p></div>})}
+              </Carousel>
+            </Modal.Content>
+        </Modal>
+      <h1>{this.props.history.location.state.title}</h1>
+      <Photo routeInfo={this.props.history.location.pathname} photos={this.props.history.location.state.photos} editCaptionInState={this.props.editCaptionInState}/>
+      <Segment basic>
+        <Container text>{this.props.history.location.state.description ? <Fragment><Header as='h2'>Description</Header><Divider/>{this.props.history.location.state.description}</Fragment> : ""}</Container>
       </Segment>
+      </div>
     )
   }
+
 }
 
 export default withRouter(PhotoStory);

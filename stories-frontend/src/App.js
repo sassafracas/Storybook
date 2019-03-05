@@ -7,9 +7,9 @@ import NavBar from "./NavBar"
 import Adapter from "./Adapter"
 import RegistrationForm from "./RegistrationForm"
 import Explore from "./Explore"
-import MyStories from "./MyStories"
+import MyStoriesList from "./MyStoriesList"
 import Upload from "./Upload"
-import PhotoDetails from "./PhotoDetails"
+import PhotoStory from "./PhotoStory"
 
 class App extends Component {
 
@@ -129,9 +129,9 @@ class App extends Component {
           { Adapter.isLoggedIn() ?
             <Fragment>
               <Route exact path="/explore" component={Explore} />
-              <Route exact path="/my-stories" component={(props) => <MyStories {...this.state} history={props.history} deletePhotostory={this.deletePhotostory} editCaptionInState={this.editCaptionInState}  />} />
+              <Route exact path="/my-stories" component={(props) => <MyStoriesList {...this.state} history={props.history} deletePhotostory={this.deletePhotostory} editCaptionInState={this.editCaptionInState}  />} />
               <Route exact path="/upload" component={Upload} />
-              <Route exact path="/my-stories/:id" component={(props) => <PhotoDetails {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
+              <Route exact path="/my-stories/:id" component={(props) => <PhotoStory {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
             </Fragment>
             :
             <Fragment>
