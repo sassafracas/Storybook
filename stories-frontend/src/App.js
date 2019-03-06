@@ -56,7 +56,7 @@ class App extends Component {
 
   getAllUserStories = () => {
     console.log("get all user stories ", this.state);
-    Adapter.getAllMyStories(localStorage.getItem('token'), this.state.currentUserId)
+    Adapter.getAllMyStories(localStorage.getItem('token'), this.props.currentUserId)
     .then(r => r.json())
     .then(json => {console.log("getallusers ", json);return json.map(photostory => this.getPhotos(photostory))})
   }
@@ -69,19 +69,11 @@ class App extends Component {
     photostory["photos"] = json
     this.props.addPhotos(photostory)
     console.log("redux photos added", this.props)
-    this.setState({
-      photostories: [...this.state.photostories, photostory]
-    }, () => console.log("add photos to state ",this.state))
-
   }
 
   addTokenInfoToState = (r) => {
     this.props.addToken(r)
     console.log("redux props", this.props)
-    this.setState({
-      currentUserId: r.id,
-      username: r.username
-    }, ()=> console.log("add token info to state ", this.state))
   }
 
   deletePhotostory = (photostory) => {
@@ -134,15 +126,15 @@ class App extends Component {
           { Adapter.isLoggedIn() ?
             <Fragment>
               <Route exact path="/explore" component={Explore} />
-              <Route exact path="/my-stories" component={(props) => <MyStoriesList {...this.state} history={props.history} deletePhotostory={this.deletePhotostory} editCaptionInState={this.editCaptionInState}  />} />
+              <Route exact path="/my-stories" component={(props) => <MyStoriesList {...this.props} history={props.history} deletePhotostory={this.deletePhotostory} editCaptionInState={this.editCaptionInState}  />} />
               <Route exact path="/upload" component={Upload} />
-              <Route exact path="/my-stories/:id" component={(props) => <PhotoStory {...this.state} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
+              <Route exact path="/my-stories/:id" component={(props) => <PhotoStory {...this.props} history={props.history} editCaptionInState={this.editCaptionInState}  />} />
             </Fragment>
             :
             <Fragment>
                <Redirect to="/"/>
               <Route exact path="/register" component={(props) => <RegistrationForm {...props} />} />
-              <Route exact path="/login" component={(props) => <LoginForm {...this.state} {...props} handleLogInSubmit={this.handleLogInSubmit} handleInputChange={this.handleInputChange}/>} />
+              <Route exact path="/login" component={(props) => <LoginForm {...this.props} {...props} handleLogInSubmit={this.handleLogInSubmit} handleInputChange={this.handleInputChange}/>} />
             </Fragment>
           }
 
