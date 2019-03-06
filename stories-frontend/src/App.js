@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import './App.css';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import LoginForm from "./LoginForm"
-import Welcome from "./Welcome"
-import NavBar from "./NavBar"
-import Adapter from "./Adapter"
-import RegistrationForm from "./RegistrationForm"
-import Explore from "./Explore"
-import MyStoriesList from "./MyStoriesList"
-import Upload from "./Upload"
-import PhotoStory from "./PhotoStory"
+import { connect } from 'react-redux';
+import LoginForm from "./components/LoginForm"
+import Welcome from "./components/Welcome"
+import NavBar from "./components/NavBar"
+import Adapter from "./components/Adapter"
+import RegistrationForm from "./components/RegistrationForm"
+import Explore from "./components/Explore"
+import MyStoriesList from "./components/MyStoriesList"
+import Upload from "./components/Upload"
+import PhotoStory from "./components/PhotoStory"
 
 class App extends Component {
 
@@ -66,13 +67,17 @@ class App extends Component {
 
   addPhotosToState = (json, photostory) => {
     photostory["photos"] = json
+    this.props.addPhotos(photostory)
+    console.log("redux photos added", this.props)
     this.setState({
       photostories: [...this.state.photostories, photostory]
-    }, () => console.log("add photos to state ",this.props))
+    }, () => console.log("add photos to state ",this.state))
 
   }
 
   addTokenInfoToState = (r) => {
+    this.props.addToken(r)
+    console.log("redux props", this.props)
     this.setState({
       currentUserId: r.id,
       username: r.username
@@ -146,4 +151,32 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => ({
+  username: state.username,
+  password: state.password,
+  currentUserId: state.currentUserId,
+  photostories: state.photostories,
+  errors: state.errors,
+  forceRefresh: state.forceRefresh
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addToken: (r) => dispatch({ 
+      type: 'ADD_TOKEN',
+      payload: {
+        currentUserId: r.id,
+        username: r.username
+      }
+    }),
+    addPhotos: (photostory) => dispatch({
+       type: 'ADD_PHOTOS',
+       payload: {
+         photostory: photostory
+       } 
+      }),
+    reset: () => dispatch({ type: 'RESET' })
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
