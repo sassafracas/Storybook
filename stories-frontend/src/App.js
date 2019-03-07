@@ -32,11 +32,7 @@ class App extends Component {
     
     this.setState({
       photostories: [...this.state.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
-    }, () => {
-      console.log("after setting state ", this.state.photostories)
     })
-    console.log("photo index ", foundPhotoIndex);
-    console.log("hi you're editing ", this.state.photostories);
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -133,7 +129,6 @@ class App extends Component {
               <Route exact path="/login" component={(props) => <LoginForm {...this.props} {...props} handleLogInSubmit={this.handleLogInSubmit} handleInputChange={this.handleInputChange}/>} />
             </Fragment>
           }
-
       </div>
     );
   }

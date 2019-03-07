@@ -12,7 +12,6 @@ class Upload extends Component {
     const value = event.target.value
     this.props.inputChange(name, value)
     this.validateField(name, value)
-    console.log("redux form change", this.props)
   }
 
   validateField = (fieldName, fieldValue) => {
@@ -20,7 +19,7 @@ class Upload extends Component {
     let titleValid = this.props.titleValid
     let captionValid = this.props.captionValid
     let pictureValid = this.props.pictureValid
-    console.log(fieldName, fieldValue)
+
     switch (fieldName) {
       case 'title':
         titleValid = fieldValue.length >= 1;
@@ -38,17 +37,11 @@ class Upload extends Component {
         break;
     }
     let errorsObj = { formErrors: fieldValidationErrors, titleValid, captionValid, pictureValid}
-    console.log("in errors", errorsObj)
-    this.props.validateField(errorsObj)
-    this.validateForm()
-  }
-
-  validateForm = () => {
-    this.props.validateForm({ formValid: this.props.titleValid && this.props.captionValid && this.props.pictureValid})
+    let formValidObj = { formValid: titleValid && captionValid && pictureValid}
+    this.props.validateField(errorsObj, formValidObj)
   }
 
   handleRadioButton = (event, value) => {
-    console.log(value);
     this.props.radioChange(value.value)
   }
 //post state to database
@@ -71,36 +64,25 @@ class Upload extends Component {
   photoChange = (event, data) => {
     const name = "inputPicture"
     const value = data.value
-    console.log("data", data.value)
     this.props.photoChange(name, value)
     this.validateField(name, value)
   }
 
   putPhotoOnScreen = (photoObj) => {
-    this.props.photoDisplay(photoObj)
+    let newPhotoObj = {
+      caption: "",
+      captionValid: false,
+      formValid: false,
+      picture: [...this.props.picture, photoObj]
+    }
+    this.props.photoDisplay(newPhotoObj)
   }
-
-//change state to include picture
-  // handlePhotoClick = (event) => {
-  //   event.persist()
-  //   console.log("handlePhotoClick before set state", event)
-
-  //   this.setState({
-  //     picture: event.target[3].files["0"]
-  //   })
-  //   //["[[Target]]"].target.files["0"]
-
-  //   //["[[Target]]"].target.files
-  //   console.log("handlePhotoClick ", event.target.files[0])
-  // }
 
   mapPhotoPreviews = () => {
     return this.props.picture.map(picture => <Fragment><Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/><Button color="red" size="mini" compact icon basic attached="right" floated="left" onClick={(event, buttonInfo) => this.deletePhotoFromStateAndBackend(event, buttonInfo, picture)}><Icon name="x"/></Button></Fragment>)
   }
 
   deletePhotoFromStateAndBackend = (event, buttonInfo, picture) => {
-    event.persist();
-    console.log(event);
     let deletedPhotoObjIndex = this.props.picture.findIndex((previewPhoto, index) => previewPhoto.id === picture.id)
     this.props.deletePhoto(deletedPhotoObjIndex)
     Adapter.deletePreviewPhoto(picture.id)
@@ -205,13 +187,10 @@ const mapDispatchToProps = dispatch => {
         [name]: value
       }
     }),
-    photoDisplay: (photoObj) => dispatch({ 
+    photoDisplay: (newPhotoObj) => dispatch({ 
       type: 'PHOTO_DISPLAY',
       payload: {
-        caption: "",
-        captionValid: false,
-        formValid: false,
-        picture: [...this.props.picture, photoObj]
+        newPhotoObj
       }
     }),
     radioChange: (value) => dispatch({ 
@@ -226,16 +205,11 @@ const mapDispatchToProps = dispatch => {
         picture: [...this.props.picture.slice(0, deletedPhotoObjIndex), ...this.props.picture.slice(deletedPhotoObjIndex+1)]
       }
     }),
-    validateField: (errorsObj) => dispatch({ 
+    validateField: (errorsObj, formValidObj) => dispatch({ 
       type: 'VALIDATE_FIELD',
       payload: {
-        errorsObj
-      }
-    }),
-    validateForm: (formValidObj) => dispatch({ 
-      type: 'VALIDATE_FORM',
-      payload: {
-        formValidObj
+        ...errorsObj,
+        ...formValidObj
       }
     }),
   }
