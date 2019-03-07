@@ -19,19 +19,17 @@ class App extends Component {
     password: "",
     currentUserId: "",
     photostories: [],
-    errors: "",
-    forceRefresh: false,
+    errors: ""
   }
 
   componentDidMount(){
-    console.log("is this first");
     localStorage.getItem('token') ? Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories()) : this.props.history.push("/")
   }
 
   editCaptionInState = (editedPhoto) => {
-    let foundPhotostory = this.state.photostories.find(photostory => photostory.id === editedPhoto.photo_story_id)
-    console.log("found photostory", foundPhotostory);
+    let foundPhotostory = this.props.photostories.find(photostory => photostory.id === editedPhoto.photo_story_id)
     let foundPhotoIndex = foundPhotostory.photos.findIndex((photo, index) => photo.id === editedPhoto.id)
+    
     this.setState({
       photostories: [...this.state.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
     }, () => {
@@ -41,21 +39,20 @@ class App extends Component {
     console.log("hi you're editing ", this.state.photostories);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("next props it will receive", nextProps.location.pathname);
-    console.log("current props", this.props.location.pathname);
-    if (this.props.location.pathname === "/upload" || this.props.location.pathname === "/login" || this.props.location.pathname === "/register" && nextProps.location.pathname === "/my-stories") {
-      this.forceRefresh()
-    }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("next props it will receive", nextProps.location.pathname);
+  //   console.log("current props", this.props.location.pathname);
+  //   if (this.props.location.pathname === "/upload" || this.props.location.pathname === "/login" || this.props.location.pathname === "/register" && nextProps.location.pathname === "/my-stories") {
+  //     this.forceRefresh()
+  //   }
 
-  }
+  // }
 
-  forceRefresh = () => {
-    window.location.reload()
-  }
+  // forceRefresh = () => {
+  //   window.location.reload()
+  // }
 
   getAllUserStories = () => {
-    console.log("get all user stories ", this.state);
     Adapter.getAllMyStories(localStorage.getItem('token'), this.props.currentUserId)
     .then(r => r.json())
     .then(json => {console.log("getallusers ", json);return json.map(photostory => this.getPhotos(photostory))})
@@ -78,7 +75,6 @@ class App extends Component {
 
   deletePhotostory = (photostory) => {
     Adapter.deleteOnePhotostory(photostory.id).then(()=> this.deletePhotostoryFromState(photostory))
-    console.log(photostory);
   }
 
   deletePhotostoryFromState = (photostory) => {
@@ -148,8 +144,7 @@ const mapStateToProps = state => ({
   password: state.password,
   currentUserId: state.currentUserId,
   photostories: state.photostories,
-  errors: state.errors,
-  forceRefresh: state.forceRefresh
+  errors: state.errors
 })
 
 const mapDispatchToProps = dispatch => {
@@ -164,7 +159,7 @@ const mapDispatchToProps = dispatch => {
     addPhotos: (photostory) => dispatch({
        type: 'ADD_PHOTOS',
        payload: {
-         photostory: photostory
+         photostory
        } 
       }),
     reset: () => dispatch({ type: 'RESET' })
