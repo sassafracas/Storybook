@@ -17,6 +17,7 @@
 /storage/*
 /public/*
 
+.DS_Store
 .byebug_history
 .env
 
