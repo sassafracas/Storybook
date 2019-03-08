@@ -14,7 +14,7 @@ class PhotosController < ApplicationController
     @photostory = PhotoStory.find_or_create_by(title: params[:title]) do |photo_story|
       @user.photo_stories.push(photo_story)
       @photostory = photo_story
-      # byebug
+  
     end
     @photostory.title = params[:title]
     @photostory.description = params[:description]
@@ -23,14 +23,20 @@ class PhotosController < ApplicationController
     @photo = Photo.new
     @photo.caption = params[:caption]
     @photo.picture = params[:picture]
-    # byebug
+
     @user.photo_stories.find_by(id: @photostory.id).photos.push(@photo)
     @photostory.save
     if (@photo.save)
+      #byebug
       render json: {
         id: @photo.id,
         caption: @photo.caption,
         picture: @photo.picture,
+        photostory_id: @photostory.id,
+        photostory_title: @photostory.title,
+        photostory_private: @photostory.private,
+        photostory_user_id: @photostory.user_id,
+        photostory_description: @photostory.description
       }
     else
       render json: {

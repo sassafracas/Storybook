@@ -1,7 +1,6 @@
 class PhotostoriesController < ApplicationController
 
   def public
-    # byebug
     render json: PhotoStory.where.not(user_id: decoded_token[0]["id"], private: true)
   end
 

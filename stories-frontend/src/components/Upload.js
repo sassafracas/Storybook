@@ -13,7 +13,7 @@ class Upload extends Component {
     this.props.inputChange(name, value)
     this.validateField(name, value)
   }
-
+// make an upload photostory in store => change response after handlePhotoUpload to include photostory => done  btn sends new photostory to store
   validateField = (fieldName, fieldValue) => {
     let fieldValidationErrors = this.props.formErrors
     let titleValid = this.props.titleValid
@@ -23,7 +23,6 @@ class Upload extends Component {
     switch (fieldName) {
       case 'title':
         titleValid = fieldValue.length >= 1;
-        console.log("this is true?", titleValid)
         fieldValidationErrors.title = titleValid ? "" : "Title must be at least one character long";
         break;
       case 'caption':
@@ -69,13 +68,23 @@ class Upload extends Component {
   }
 
   putPhotoOnScreen = (photoObj) => {
+    console.log(photoObj)
     let newPhotoObj = {
       caption: "",
       captionValid: false,
       formValid: false,
       picture: [...this.props.picture, photoObj]
     }
+    let uploadedPhotostory = {
+      description: photoObj.photostory_description.description || "",
+      id: photoObj.photostory_id,
+      photos: [...this.props.uploadedPhotostory.photos || [], {caption: photoObj.caption, id: photoObj.id, photo_story_id: photoObj.photostory_id, picture: photoObj.picture}],
+      private: photoObj.photostory_private,
+      title: photoObj.photostory_title,
+      user_id: photoObj.photostory_user_id
+    }
     this.props.photoDisplay(newPhotoObj)
+    this.props.updatePhotostories(uploadedPhotostory)
   }
 
   mapPhotoPreviews = () => {
@@ -84,14 +93,29 @@ class Upload extends Component {
 
   deletePhotoFromStateAndBackend = (event, buttonInfo, picture) => {
     let deletedPhotoObjIndex = this.props.picture.findIndex((previewPhoto, index) => previewPhoto.id === picture.id)
-    this.props.deletePhoto(deletedPhotoObjIndex)
+    let newPhotoArr = [...this.props.picture.slice(0, deletedPhotoObjIndex), ...this.props.picture.slice(deletedPhotoObjIndex+1)]
+    console.log(newPhotoArr)
+    this.props.deletePhoto(newPhotoArr)
     Adapter.deletePreviewPhoto(picture.id)
+  }
+
+  updatePhotostoriesStore = () => {
+    console.log("upload props", this.props)
+    let clearFormObj = {
+      title: "",
+      description: "",
+      caption: "",
+      picture: [],
+      inputPicture: []
+    }
+    this.props.addPhotostoryToStore()
+    this.props.clearForm(clearFormObj)
   }
 
   render(){
     return(
       <Fragment>
-      <Form error onSubmit={this.handlePhotoUpload}>
+      <Form className='form' error onSubmit={this.handlePhotoUpload}>
         <h2>Upload A Photo</h2>
         <Form.Field required error={!this.props.titleValid}>
           <label>Story Title</label>
@@ -148,7 +172,7 @@ class Upload extends Component {
           <Button type="submit" disabled={!this.props.formValid}>Upload Your Photo</Button>
         </Form.Field>
       </Form>
-      {this.props.picture[0] ? this.mapPhotoPreviews() : <h4>Preview of Photos</h4>}
+      {this.props.picture[0] ? <div className='form__picture-preview'>{this.mapPhotoPreviews()} <Button positive floated='right' onClick={this.updatePhotostoriesStore}>Done</Button></div> : <h4>Preview of Photos</h4>}
       </Fragment>
     )
   }
@@ -164,7 +188,8 @@ const mapStateToProps = state => ({
   titleValid: state.titleValid,
   captionValid: state.captionValid,
   pictureValid: state.pictureValid,
-  formValid: state.formValid
+  formValid: state.formValid,
+  uploadedPhotostory: state.uploadedPhotostory
 })
 
 const mapDispatchToProps = dispatch => {
@@ -199,10 +224,10 @@ const mapDispatchToProps = dispatch => {
         private: value
       }
     }),
-    deletePhoto: (deletedPhotoObjIndex) => dispatch({ 
+    deletePhoto: (newPhotoArr) => dispatch({ 
       type: 'DELETE_PHOTO',
       payload: {
-        picture: [...this.props.picture.slice(0, deletedPhotoObjIndex), ...this.props.picture.slice(deletedPhotoObjIndex+1)]
+        picture: newPhotoArr
       }
     }),
     validateField: (errorsObj, formValidObj) => dispatch({ 
@@ -210,6 +235,21 @@ const mapDispatchToProps = dispatch => {
       payload: {
         ...errorsObj,
         ...formValidObj
+      }
+    }),
+    updatePhotostories: (uploadedPhotostory) => dispatch({ 
+      type: 'UPDATE_PHOTOSTORIES',
+      payload: {
+        ...uploadedPhotostory
+      }
+    }),
+    addPhotostoryToStore: () => dispatch({ 
+      type: 'ADD_PHOTOSTORY'
+    }),
+    clearForm: (clearFormObj) => dispatch({ 
+      type: 'CLEAR_FORM',
+      payload: {
+        ...clearFormObj
       }
     }),
   }

@@ -15,6 +15,7 @@ const initialState = {
         pictureValid: false,
         formValid: false,
         errors: "",
+        uploadedPhotostory: {}
   }
 
 function appReducer (state = initialState, action) {
@@ -28,12 +29,20 @@ function appReducer (state = initialState, action) {
         case 'PHOTO_CHANGE':
             return {...state, inputPicture: [...state.inputPicture, action.payload.inputPicture]}
         case 'PHOTO_DISPLAY':
+        console.log(action.payload)
             return {...state, ...action.payload.newPhotoObj}
         case 'RADIO_CHANGE':
             return {...state, ...action.payload}
-        case 'PHOTO_DELETE':
+        case 'DELETE_PHOTO':
+        console.log("deleted", action.payload)
             return {...state, ...action.payload}
         case 'VALIDATE_FIELD':
+            return {...state, ...action.payload}
+        case 'UPDATE_PHOTOSTORIES':
+            return {...state, uploadedPhotostory: action.payload}
+        case 'ADD_PHOTOSTORY':
+            return {...state, photostories: [...state.photostories, state.uploadedPhotostory]}
+        case 'CLEAR_FORM':
             return {...state, ...action.payload}
         default:
             return state

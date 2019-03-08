@@ -26,3 +26,14 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.form {
+  width: 45vw;
+  text-align: center;
+  display: inline-block;
+  margin: 5% 0;
+}
+
+.form__picture-preview {
+  
+}
