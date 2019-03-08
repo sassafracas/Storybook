@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from "react";
-import { NavLink, Link, Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Adapter from "./Adapter"
-import { Menu, Segment } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 
 class NavBar extends Component {
 
@@ -31,7 +31,6 @@ class NavBar extends Component {
               </Menu.Menu>
               <Menu.Menu position="right">
                 <Menu.Item name="logout" active={activeItem === 'logout'} onClick={() => {
-                    this.handleItemClick;
                     Adapter.logout();
                     this.props.clearErrorState()
                     this.props.routeInfo.history.push("/login");

@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Segment, Header, Container } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { Segment, Header } from 'semantic-ui-react';
 
 class Welcome extends Component {
   render(){

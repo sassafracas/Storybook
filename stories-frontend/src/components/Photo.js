@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Adapter from "./Adapter";
-import { Segment, Card, Image, Modal, Button, Icon, Input } from 'semantic-ui-react';
+import { Card, Image, Modal, Button, Icon, Input } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 
@@ -14,8 +14,6 @@ class Photo extends Component {
   }
 
   changeCaptionState = (event, buttonInfo) => {
-    console.log("caption event ", event);
-    console.log("caption buttonInfo ", buttonInfo);
     this.setState({caption: buttonInfo.value})
   }
 
@@ -30,9 +28,6 @@ class Photo extends Component {
   }
 
   makeEditable = (event, buttonInfo, photo) => {
-    event.persist();
-    console.log("makeEditable event ", event);
-    console.log("makeEditable photo ", photo);
     this.setState({
       editable: !this.state.editable,
       selectedPhoto: photo.id
@@ -72,7 +67,6 @@ class Photo extends Component {
   }
 
   render() {
-    console.log("photo props ", this.props)
     return (
       <div>
         {this.props.routeInfo === `/my-stories/${this.props.photos[0].photo_story_id}` ? this.mapLargePhotos() : this.mapSmallPhotos()}

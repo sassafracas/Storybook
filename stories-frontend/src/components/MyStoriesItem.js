@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Adapter from "./Adapter";
 import Photo from "./Photo";
 import { Link, withRouter } from 'react-router-dom';
 import { Segment, Button } from 'semantic-ui-react';
@@ -7,7 +6,6 @@ import { Segment, Button } from 'semantic-ui-react';
 class MyStoriesItem extends Component {
 
   render() {
-   console.log("MyStoriesItem props ", this.props)
     return (
       <Segment vertical>
         <Link to={{

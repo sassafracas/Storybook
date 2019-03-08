@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import './App.css';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginForm from "./components/LoginForm"
 import Welcome from "./components/Welcome"
@@ -34,19 +34,6 @@ class App extends Component {
       photostories: [...this.state.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
     })
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("next props it will receive", nextProps.location.pathname);
-  //   console.log("current props", this.props.location.pathname);
-  //   if (this.props.location.pathname === "/upload" || this.props.location.pathname === "/login" || this.props.location.pathname === "/register" && nextProps.location.pathname === "/my-stories") {
-  //     this.forceRefresh()
-  //   }
-
-  // }
-
-  // forceRefresh = () => {
-  //   window.location.reload()
-  // }
 
   getAllUserStories = () => {
     Adapter.getAllMyStories(localStorage.getItem('token'), this.props.currentUserId)

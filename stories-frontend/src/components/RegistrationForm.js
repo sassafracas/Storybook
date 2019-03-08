@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, TextArea, Button, Image, Segment, Container, Message } from 'semantic-ui-react';
+import { Form, Input, Container, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 class RegistrationForm extends Component {

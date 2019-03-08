@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import Adapter from "./Adapter"
 import MyStoriesItem from "./MyStoriesItem"
 import { withRouter } from 'react-router-dom';
-//When I click on a story title, redirects to my-stories/${story.id}
-//Renders a PhotoDetails component with photostory & photos
+
 class MyStoriesList extends Component {
 
   mapPhotoStories = () => {
@@ -11,7 +9,6 @@ class MyStoriesList extends Component {
   }
 
   render(){
-    console.log("mystorieslist", this.props);
     return(
       <div>
         {this.mapPhotoStories()}

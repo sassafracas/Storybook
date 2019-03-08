@@ -29,12 +29,10 @@ function appReducer (state = initialState, action) {
         case 'PHOTO_CHANGE':
             return {...state, inputPicture: [...state.inputPicture, action.payload.inputPicture]}
         case 'PHOTO_DISPLAY':
-        console.log(action.payload)
             return {...state, ...action.payload.newPhotoObj}
         case 'RADIO_CHANGE':
             return {...state, ...action.payload}
         case 'DELETE_PHOTO':
-        console.log("deleted", action.payload)
             return {...state, ...action.payload}
         case 'VALIDATE_FIELD':
             return {...state, ...action.payload}
