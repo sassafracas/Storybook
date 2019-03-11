@@ -55,7 +55,7 @@ class App extends Component {
     this.props.addToken(r)
     console.log("redux props", this.props)
   }
-
+//get delete to delete from store & make sure site doesnt crash after deleting last photo from upload form & fix photo still being in upload box
   deletePhotostory = (photostory) => {
     Adapter.deleteOnePhotostory(photostory.id).then(()=> this.deletePhotostoryFromState(photostory))
   }
