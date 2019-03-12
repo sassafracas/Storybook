@@ -3,8 +3,6 @@ import Adapter from "./Adapter";
 import { Card, Image, Modal, Button, Icon, Input } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
-
-//map photos here
 class Photo extends Component {
 
   state = {
@@ -20,7 +18,7 @@ class Photo extends Component {
   makeCaptionAnInput = (photo) => {
     return <Fragment><Input defaultValue={photo.caption} onChange={(event, buttonInfo) => this.changeCaptionState(event, buttonInfo)}></Input><Button basic color="black" onClick={this.patchCaption} type="submit">Done</Button></Fragment>
   }
-//have it send an update to the photo prop it's getting
+
   patchCaption = () => {
     console.log(this.state.selectedPhoto);
     Adapter.updatePhotoCaption(this.state.selectedPhoto, this.state.caption).then(r=> r.json()).then(json => this.props.editCaptionInState(json)).then(this.setState({editable: false}))
@@ -51,7 +49,7 @@ class Photo extends Component {
           })}
         </Card.Group>
   }
-//make a ternary for photo caption, if state is set to edit then render a textarea with the photo caption prewritten in and  submit that patches to server otherwise just render the photo caption
+
   mapSmallPhotos = () => {
     return <Card.Group itemsPerRow={6}>
             {this.props.photos.map(photo => {return (

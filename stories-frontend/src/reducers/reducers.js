@@ -42,6 +42,10 @@ function appReducer (state = initialState, action) {
             return {...state, photostories: [...state.photostories, state.uploadedPhotostory]}
         case 'CLEAR_FORM':
             return {...state, ...action.payload}
+        case 'DELETE_STORY':
+            return {...state, ...action.payload}
+        case 'ADD_ERRORS':
+            return {...state, ...action.payload}
         default:
             return state
     }

@@ -29,10 +29,11 @@ class App extends Component {
   editCaptionInState = (editedPhoto) => {
     let foundPhotostory = this.props.photostories.find(photostory => photostory.id === editedPhoto.photo_story_id)
     let foundPhotoIndex = foundPhotostory.photos.findIndex((photo, index) => photo.id === editedPhoto.id)
-    
+    console.log("state", this.state)
+    console.log("found photostory", foundPhotostory, foundPhotoIndex)
     this.setState({
       photostories: [...this.state.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
-    })
+    }, ()=>{console.log("after", this.state)})
   }
 
   getAllUserStories = () => {
@@ -48,25 +49,20 @@ class App extends Component {
   addPhotosToState = (json, photostory) => {
     photostory["photos"] = json
     this.props.addPhotos(photostory)
-    console.log("redux photos added", this.props)
   }
 
   addTokenInfoToState = (r) => {
     this.props.addToken(r)
-    console.log("redux props", this.props)
   }
-//get delete to delete from store & make sure site doesnt crash after deleting last photo from upload form & fix photo still being in upload box
+//make sure site doesnt crash after deleting last photo from upload form & fix photo still being in upload box & change edit function & logout clears store & make sure stories go down alphabetically
   deletePhotostory = (photostory) => {
     Adapter.deleteOnePhotostory(photostory.id).then(()=> this.deletePhotostoryFromState(photostory))
   }
 
   deletePhotostoryFromState = (photostory) => {
-    let deletedPhotostoryIndex = this.state.photostories.findIndex((statePhotostory, index) => statePhotostory.id === photostory.id)
-    console.log("deleted index ", deletedPhotostoryIndex);
-    this.setState({
-      photostories: [...this.state.photostories.slice(0, deletedPhotostoryIndex), ...this.state.photostories.slice(deletedPhotostoryIndex+1)]
-    }, () => console.log("after deleting state ", this.state))
-
+    let deletedPhotostoryIndex = this.props.photostories.findIndex((statePhotostory, index) => statePhotostory.id === photostory.id)
+    let newPhotostoryArr = [...this.props.photostories.slice(0, deletedPhotostoryIndex), ...this.props.photostories.slice(deletedPhotostoryIndex+1)]
+    this.props.deletePhoto(newPhotostoryArr)
   }
 
   clearErrorState = () => {
@@ -85,9 +81,10 @@ class App extends Component {
     })
       .then(r => r.json())
       .then(json => {
-        if (json.errors){ this.setState({ errors: json.errors}) } else {
+        if (json.errors){ this.props.loginErrors(json.errors) } else {
         console.log("handle login submit response ", json);
-        this.setState({currentUserId: json.id, username: json.username}, this.setTokenAndPushHistory(json))}
+        this.props.addToken(json) 
+        this.setTokenAndPushHistory(json)}
       })
   }
 
@@ -144,7 +141,18 @@ const mapDispatchToProps = dispatch => {
          photostory
        } 
       }),
-    reset: () => dispatch({ type: 'RESET' })
+    deletePhoto: (newPhotostoryArr) => dispatch({
+       type: 'DELETE_STORY',
+       payload: {
+         photostories : newPhotostoryArr
+       } 
+      }),
+    loginErrors: (errorsJson) => dispatch({
+      type: 'ADD_ERRORS',
+      payload: {
+        errors: errorsJson
+      } 
+      }),
   }
 }
 

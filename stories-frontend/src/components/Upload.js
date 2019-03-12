@@ -46,7 +46,7 @@ class Upload extends Component {
 
   //post to database & add to DOM
   handlePhotoUpload = (event) => {
-    event.preventDefault();
+
 
     //["[[Target]]"].target[2].files
     let formData = new FormData();
@@ -58,7 +58,7 @@ class Upload extends Component {
     Adapter.postToPhotos(formData)
       .then(r => r.json())
       .then(r => this.putPhotoOnScreen(r))
-
+    event.target.reset()
   }
 
   photoChange = (event, data) => {
@@ -98,9 +98,22 @@ class Upload extends Component {
   deletePhotoFromStateAndBackend = (event, buttonInfo, picture) => {
     let deletedPhotoObjIndex = this.props.picture.findIndex((previewPhoto, index) => previewPhoto.id === picture.id)
     let newPhotoArr = [...this.props.picture.slice(0, deletedPhotoObjIndex), ...this.props.picture.slice(deletedPhotoObjIndex+1)]
-    console.log(newPhotoArr)
-    this.props.deletePhoto(newPhotoArr)
-    Adapter.deletePreviewPhoto(picture.id)
+
+    if (newPhotoArr.length > 0){
+      this.props.deletePhoto(newPhotoArr)
+      Adapter.deletePreviewPhoto(picture.id)
+    } else {
+      Adapter.deletePreviewPhoto(picture.id)
+      let clearFormObj = {
+        title: "",
+        description: "",
+        caption: "",
+        picture: [],
+        inputPicture: [],
+        uploadedPhotostory: {}
+      }
+      this.props.clearForm(clearFormObj)
+    }
   }
 
   updatePhotostoriesStore = () => {

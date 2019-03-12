@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom';
 class PhotoStory extends Component {
 
   render(){
-    console.log("inside photostory ",this.props)
     return(
       <div>
         <Modal
