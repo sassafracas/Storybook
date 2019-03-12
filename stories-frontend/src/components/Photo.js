@@ -16,13 +16,14 @@ class Photo extends Component {
   }
 
   makeCaptionAnInput = (photo) => {
-    return <Fragment><Input defaultValue={photo.caption} onChange={(event, buttonInfo) => this.changeCaptionState(event, buttonInfo)}></Input><Button basic color="black" onClick={this.patchCaption} type="submit">Done</Button></Fragment>
+    return (<Fragment>
+              <Input defaultValue={photo.caption} onChange={(event, buttonInfo) => this.changeCaptionState(event, buttonInfo)}/>
+              <Button basic color="black" onClick={this.patchCaption} type="submit">Done</Button>
+            </Fragment>)
   }
 
   patchCaption = () => {
-    console.log(this.state.selectedPhoto);
     Adapter.updatePhotoCaption(this.state.selectedPhoto, this.state.caption).then(r=> r.json()).then(json => this.props.editCaptionInState(json)).then(this.setState({editable: false}))
-
   }
 
   makeEditable = (event, buttonInfo, photo) => {
@@ -42,7 +43,16 @@ class Photo extends Component {
                 </Modal.Content>
                 </Modal>
                 <Card.Content>
-                  <Card.Header key={photo.id}>  <Button basic icon floated="left" size="mini" onClick={(event, buttonInfo) => this.makeEditable(event, buttonInfo, photo)}> <Icon name='edit'/></Button>{this.state.selectedPhoto === photo.id && this.state.editable ? this.makeCaptionAnInput(photo) : photo.caption}</Card.Header>
+                  <Card.Header key={photo.id}>
+                  { this.props.location.state.user_id !== this.props.currentUserId ? 
+                    "" 
+                    :  
+                    <Button basic icon floated="left" size="mini" onClick={(event, buttonInfo) => this.makeEditable(event, buttonInfo, photo)}> 
+                      <Icon name='edit'/>
+                    </Button>
+                  }
+                    {this.state.selectedPhoto === photo.id && this.state.editable ? this.makeCaptionAnInput(photo) : photo.caption}
+                  </Card.Header>
                 </Card.Content>
               </Card>
             )

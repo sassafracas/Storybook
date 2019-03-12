@@ -14,14 +14,6 @@ import PhotoStory from "./components/PhotoStory"
 
 class App extends Component {
 
-  state = {
-    username: "",
-    password: "",
-    currentUserId: "",
-    photostories: [],
-    errors: ""
-  }
-
   componentDidMount(){
     localStorage.getItem('token') ? Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories()) : this.props.history.push("/")
   }
@@ -29,17 +21,14 @@ class App extends Component {
   editCaptionInState = (editedPhoto) => {
     let foundPhotostory = this.props.photostories.find(photostory => photostory.id === editedPhoto.photo_story_id)
     let foundPhotoIndex = foundPhotostory.photos.findIndex((photo, index) => photo.id === editedPhoto.id)
-    console.log("state", this.state)
-    console.log("found photostory", foundPhotostory, foundPhotoIndex)
-    this.setState({
-      photostories: [...this.state.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
-    }, ()=>{console.log("after", this.state)})
+    let newCaptionPhotostory = [...this.props.photostories, ...foundPhotostory.photos[foundPhotoIndex] = editedPhoto]
+    this.props.editCaption(newCaptionPhotostory)
   }
 
   getAllUserStories = () => {
     Adapter.getAllMyStories(localStorage.getItem('token'), this.props.currentUserId)
     .then(r => r.json())
-    .then(json => {console.log("getallusers ", json);return json.map(photostory => this.getPhotos(photostory))})
+    .then(json => json.map(photostory => this.getPhotos(photostory)))
   }
 
   getPhotos = (photostory) => {
@@ -54,7 +43,7 @@ class App extends Component {
   addTokenInfoToState = (r) => {
     this.props.addToken(r)
   }
-//make sure site doesnt crash after deleting last photo from upload form & fix photo still being in upload box & change edit function & logout clears store & make sure stories go down alphabetically
+
   deletePhotostory = (photostory) => {
     Adapter.deleteOnePhotostory(photostory.id).then(()=> this.deletePhotostoryFromState(photostory))
   }
@@ -65,13 +54,18 @@ class App extends Component {
     this.props.deletePhoto(newPhotostoryArr)
   }
 
-  clearErrorState = () => {
-    this.setState({ errors: ""})
+  clearStore = () => {
+    let clearObj = {
+      username: "",
+      password: "",
+      currentUserId: "",
+      photostories: [],
+      errors: ""
+    }
+    this.props.clearStore(clearObj)
   }
 
   handleLogInSubmit = (event, username, password) => {
-    event.preventDefault()
-
     fetch(`http://localhost:3000/sessions/`, {
       method: 'POST',
       headers: {
@@ -82,7 +76,6 @@ class App extends Component {
       .then(r => r.json())
       .then(json => {
         if (json.errors){ this.props.loginErrors(json.errors) } else {
-        console.log("handle login submit response ", json);
         this.props.addToken(json) 
         this.setTokenAndPushHistory(json)}
       })
@@ -90,14 +83,14 @@ class App extends Component {
 
   setTokenAndPushHistory = (json) => {
     localStorage.setItem('token', json.token);
-    Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=>this.getAllUserStories())
+    Adapter.getCurrentUser(localStorage.getItem('token')).then(r=>r.json()).then(r => this.addTokenInfoToState(r)).then(()=> this.getAllUserStories())
     this.props.history.push("/my-stories");
   }
 
   render() {
     return (
       <div className="App">
-        <NavBar routeInfo={this.props} clearErrorState={this.clearErrorState}/>
+        <NavBar routeInfo={this.props} clearErrorState={this.clearStore}/>
         <Route exact path="/" component={Welcome} />
           { Adapter.isLoggedIn() ?
             <Fragment>
@@ -108,7 +101,7 @@ class App extends Component {
             </Fragment>
             :
             <Fragment>
-               <Redirect to="/"/>
+              <Redirect to="/"/>
               <Route exact path="/register" component={(props) => <RegistrationForm {...props} />} />
               <Route exact path="/login" component={(props) => <LoginForm {...this.props} {...props} handleLogInSubmit={this.handleLogInSubmit} handleInputChange={this.handleInputChange}/>} />
             </Fragment>
@@ -118,11 +111,18 @@ class App extends Component {
   }
 }
 
+const alphabeticalSort = (a,b)=>{
+  let nameA=a.title.toLowerCase(), nameB=b.title.toLowerCase()
+  if(nameA < nameB) { return -1 }
+  if(nameA > nameB) { return 1 }
+  return 0
+}
+
 const mapStateToProps = state => ({
   username: state.username,
   password: state.password,
   currentUserId: state.currentUserId,
-  photostories: state.photostories,
+  photostories: state.photostories.sort(alphabeticalSort),
   errors: state.errors
 })
 
@@ -153,6 +153,18 @@ const mapDispatchToProps = dispatch => {
         errors: errorsJson
       } 
       }),
+    editCaption: (newCaptionPhotostory) => dispatch({
+      type: 'EDIT_CAPTION',
+      payload: {
+        photostories: newCaptionPhotostory
+      } 
+      }),
+    clearStore: (clearObj) => dispatch({
+      type: 'CLEAR_STORE',
+      payload: {
+        clearObj
+      } 
+      })
   }
 }
 

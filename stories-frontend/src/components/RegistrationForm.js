@@ -28,7 +28,6 @@ class RegistrationForm extends Component {
       .then(res => res.json())
       .then(json => {
         if (json.errors) {this.setState({ regErrors: json.errors})} else {
-        console.log(json);
         localStorage.setItem('token', json.token);
         this.props.history.push("/");
       }})

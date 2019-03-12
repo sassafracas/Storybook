@@ -46,6 +46,10 @@ function appReducer (state = initialState, action) {
             return {...state, ...action.payload}
         case 'ADD_ERRORS':
             return {...state, ...action.payload}
+        case 'EDIT_CAPTION':
+            return {...state, ...action.payload}
+        case 'CLEAR_STORE':
+            return {...state, ...action.payload.clearObj}
         default:
             return state
     }

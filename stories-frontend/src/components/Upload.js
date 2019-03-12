@@ -44,12 +44,10 @@ class Upload extends Component {
     this.props.radioChange(value.value)
   }
 
-  //post to database & add to DOM
+
   handlePhotoUpload = (event) => {
-
-
-    //["[[Target]]"].target[2].files
     let formData = new FormData();
+    
     formData.append("caption", this.props.caption)
     formData.append("title", this.props.title)
     formData.append("description", this.props.description)
@@ -89,7 +87,7 @@ class Upload extends Component {
 
   mapPhotoPreviews = () => {
     return this.props.picture.map(picture => 
-    <Fragment>
+    <Fragment key={picture.id}>
       <Image key={picture.id} src={`http://localhost:3000/${picture.picture.url}`} floated="left" bordered centered size="medium"/>
       <Button color="red" size="mini" compact icon basic attached="right" floated="left" onClick={(event, buttonInfo) => this.deletePhotoFromStateAndBackend(event, buttonInfo, picture)}><Icon name="x"/></Button>
     </Fragment>)

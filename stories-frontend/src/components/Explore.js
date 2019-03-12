@@ -22,12 +22,19 @@ addPhotosToState = (json, photostory) => {
   photostory["photos"] = json
   this.setState({
     allPhotoStories: [...this.state.allPhotoStories, photostory]
-  }, () => console.log(this.state))
+  })
 
 }
 
+alphabeticalSort = (a,b) => {
+  let nameA=a.title.toLowerCase(), nameB=b.title.toLowerCase()
+    if(nameA < nameB) { return -1 }
+    if(nameA > nameB) { return 1 }
+    return 0
+}
+
 mapAllPhotoStories = () => {
-  return this.state.allPhotoStories.map(photostory =>  {return <MyStoriesItem key={photostory.id} photostory={photostory}/>})
+  return this.state.allPhotoStories.sort(this.alphabeticalSort).map(photostory =>  {return <MyStoriesItem key={photostory.id} photostory={photostory}/>})
 }
 
 render(){
