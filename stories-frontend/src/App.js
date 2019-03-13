@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   handleLogInSubmit = (event, username, password) => {
-    fetch(`http://localhost:3000/sessions/`, {
+    fetch(`https://stories-backend.herokuapp.com/sessions/`, {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json'

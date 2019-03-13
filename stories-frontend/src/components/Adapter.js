@@ -1,5 +1,7 @@
-class Adapter {
+let local = "https://stories-backend.herokuapp.com"
 
+class Adapter {
+  
   static isLoggedIn() {
     return !!localStorage.getItem('token')
   }
@@ -9,7 +11,7 @@ class Adapter {
   }
 
   static postToPhotos(formPayload) {
-    return fetch("http://localhost:3000/photos", {
+    return fetch(`${local}/photos`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "POST",
       body: formPayload
@@ -17,46 +19,46 @@ class Adapter {
   }
 
   static getAllMyStories(token, id) {
-    return fetch(`http://localhost:3000/users/${id}/photostories`, {
+    return fetch(`${local}/users/${id}/photostories`, {
       headers: {Authorization: token}
     })
   }
 
   static getAllPublicPhotoStories(){
-    return fetch("http://localhost:3000/photostories/public", {
+    return fetch(`${local}/photostories/public`, {
       headers: {Authorization: localStorage.getItem('token')}
     })
   }
 
   static getAllPhotosForStory(id){
-    return fetch(`http://localhost:3000/photostories/${id}/photos`, {
+    return fetch(`${local}/photostories/${id}/photos`, {
       headers: {Authorization: localStorage.getItem('token')}
     })
   }
 
   static deleteOnePhotostory(id) {
-    return fetch(`http://localhost:3000/photostories/${id}`, {
+    return fetch(`${local}/photostories/${id}`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "DELETE"
     })
   }
 
   static deletePreviewPhoto(id) {
-    return fetch(`http://localhost:3000/photos/${id}`, {
+    return fetch(`${local}/photos/${id}`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "DELETE"
     })
   }
 
   static getCurrentUser(token) {
-    return fetch('http://localhost:3000/users/token', {
+    return fetch(`${local}/users/token`, {
       headers: {Authorization: token},
       method: "POST"
     })
   }
 
   static updatePhotoCaption(id, caption) {
-    return fetch(`http://localhost:3000/photos/${id}`, {
+    return fetch(`${local}/photos/${id}`, {
       headers: {Authorization: localStorage.getItem('token'), "Content-Type": "application/json"},
       method: "PATCH",
       body: JSON.stringify({ caption })
