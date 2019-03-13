@@ -2908,7 +2908,7 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-express@^4.13.3:
+express@^4.13.3, express@^4.14.0:
   version "4.16.4"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.4.tgz#fddef61926109e24c515ea97fd2f1bdbf62df12e"
   integrity sha512-j12Uuyb4FMrd/qQAm6uCHAkPtO8FDTRJZBDd5D2KOL2eLaz1yUNdUB/NOIyq0iU4q4cFarsUCrnFDPBcnksuOg==
@@ -5297,6 +5297,13 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
+
+node-js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-js/-/node-js-1.0.0.tgz#558ecc8548ca075761c0fdbc1941e2f3ff4b32d5"
+  integrity sha1-VY7MhUjKB1dhwP28GUHi8/9LMtU=
+  dependencies:
+    express "^4.14.0"
 
 node-libs-browser@^2.0.0:
   version "2.2.0"

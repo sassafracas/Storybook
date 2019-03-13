@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "file-loader": "^1.1.11",
+    "node-js": "^1.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^6.0.1",
