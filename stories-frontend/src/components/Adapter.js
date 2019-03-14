@@ -1,4 +1,4 @@
-let local = "https://stories-backend.herokuapp.com"
+let host = "https://localhost:3000"
 
 class Adapter {
   
