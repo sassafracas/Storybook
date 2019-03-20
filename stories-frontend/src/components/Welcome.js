@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, Header } from 'semantic-ui-react';
-import background from '.../cloud_background.jpg'
+import background from '../cloud_background.jpg'
 
 class Welcome extends Component {
   render(){
