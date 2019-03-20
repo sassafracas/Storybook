@@ -50,6 +50,8 @@ function appReducer (state = initialState, action) {
             return {...state, ...action.payload}
         case 'CLEAR_STORE':
             return {...state, ...action.payload.clearObj}
+        case 'DELETE_UPLOADED':
+            return {...state, uploadedPhotostory: {...state.uploadedPhotostory, ...action.payload}}
         default:
             return state
     }

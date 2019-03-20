@@ -37,9 +37,9 @@ class Photo extends Component {
     return <Card.Group itemsPerRow={2}>
             {this.props.photos.map(photo => {return (
               <Card key={photo.id} fluid>
-                <Modal closeOnDocumentClick={true} dimmer={"blurring"} size={"fullscreen"} trigger={<Image src={`https://localhost:3000${photo.picture.url}`} fluid/>}>
+                <Modal closeOnDocumentClick={true} dimmer={"blurring"} size={"fullscreen"} trigger={<Image src={`http://localhost:3000${photo.picture.url}`} fluid/>}>
                 <Modal.Content image>
-                  <Image src={`https://localhost:3000${photo.picture.url}`} wrapped fluid/>
+                  <Image src={`http://localhost:3000${photo.picture.url}`} wrapped fluid/>
                 </Modal.Content>
                 </Modal>
                 <Card.Content>
@@ -64,7 +64,7 @@ class Photo extends Component {
     return <Card.Group itemsPerRow={6}>
             {this.props.photos.map(photo => {return (
               <Card key={photo.id}>
-                <Image src={`https://localhost:3000${photo.picture.url}`}/>
+                <Image src={`http://localhost:3000${photo.picture.url}`}/>
                 <Card.Content>
                 <Card.Description key={photo.id}>{photo.caption}</Card.Description>
                 </Card.Content>

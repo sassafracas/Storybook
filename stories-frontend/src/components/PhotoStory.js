@@ -20,7 +20,7 @@ class PhotoStory extends Component {
           centered={true}>
             <Modal.Content>
               <Carousel infiniteLoop useKeyboardArrows dynamicHeight>
-                {this.props.history.location.state.photos.map(photo => {return <div key={photo.id}><img src={`https://localhost:3000${photo.picture.url}`} alt=''/> <p className="legend">{photo.caption}</p></div>})}
+                {this.props.history.location.state.photos.map(photo => {return <div key={photo.id}><img src={`http://localhost:3000${photo.picture.url}`} alt=''/> <p className="legend">{photo.caption}</p></div>})}
               </Carousel>
             </Modal.Content>
         </Modal>

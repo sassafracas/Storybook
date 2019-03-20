@@ -85,6 +85,20 @@ class Upload extends Component {
     this.props.updatePhotostories(uploadedPhotostory)
   }
 
+  deletePhotoFromStore = (newPhotoArr)=> {
+    let newArr = []
+    newPhotoArr.forEach((obj)=>{
+      newArr.push({
+          caption: obj.caption, 
+          id: obj.id, 
+          photo_story_id: obj.photostory_id, 
+          picture: obj.picture
+      })
+    })
+
+    this.props.deletePhotoFromUploaded(newArr)
+  }
+
   mapPhotoPreviews = () => {
     return this.props.picture.map(picture => 
     <Fragment key={picture.id}>
@@ -99,6 +113,7 @@ class Upload extends Component {
 
     if (newPhotoArr.length > 0){
       this.props.deletePhoto(newPhotoArr)
+      this.deletePhotoFromStore(newPhotoArr)
       Adapter.deletePreviewPhoto(picture.id)
     } else {
       Adapter.deletePreviewPhoto(picture.id)
@@ -267,6 +282,12 @@ const mapDispatchToProps = dispatch => {
         ...clearFormObj
       }
     }),
+    deletePhotoFromUploaded: (uploadedPhotostory) => dispatch({ 
+      type: 'DELETE_UPLOADED',
+      payload: {
+        photos: uploadedPhotostory
+      }
+    })
   }
 }
 
