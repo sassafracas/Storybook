@@ -11,7 +11,7 @@ class Adapter {
   }
 
   static postToPhotos(formPayload) {
-    return fetch(`${local}/photos`, {
+    return fetch(`${host}/photos`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "POST",
       body: formPayload
@@ -19,46 +19,46 @@ class Adapter {
   }
 
   static getAllMyStories(token, id) {
-    return fetch(`${local}/users/${id}/photostories`, {
+    return fetch(`${host}/users/${id}/photostories`, {
       headers: {Authorization: token}
     })
   }
 
   static getAllPublicPhotoStories(){
-    return fetch(`${local}/photostories/public`, {
+    return fetch(`${host}/photostories/public`, {
       headers: {Authorization: localStorage.getItem('token')}
     })
   }
 
   static getAllPhotosForStory(id){
-    return fetch(`${local}/photostories/${id}/photos`, {
+    return fetch(`${host}/photostories/${id}/photos`, {
       headers: {Authorization: localStorage.getItem('token')}
     })
   }
 
   static deleteOnePhotostory(id) {
-    return fetch(`${local}/photostories/${id}`, {
+    return fetch(`${host}/photostories/${id}`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "DELETE"
     })
   }
 
   static deletePreviewPhoto(id) {
-    return fetch(`${local}/photos/${id}`, {
+    return fetch(`${host}/photos/${id}`, {
       headers: {Authorization: localStorage.getItem('token')},
       method: "DELETE"
     })
   }
 
   static getCurrentUser(token) {
-    return fetch(`${local}/users/token`, {
+    return fetch(`${host}/users/token`, {
       headers: {Authorization: token},
       method: "POST"
     })
   }
 
   static updatePhotoCaption(id, caption) {
-    return fetch(`${local}/photos/${id}`, {
+    return fetch(`${host}/photos/${id}`, {
       headers: {Authorization: localStorage.getItem('token'), "Content-Type": "application/json"},
       method: "PATCH",
       body: JSON.stringify({ caption })
